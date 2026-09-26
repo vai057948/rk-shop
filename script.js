@@ -7,7 +7,7 @@
 
 /* ================= CONFIG ================= */
 
-const API_URL = "http://localhost:5000";
+const API_URL = "https://rk-shop-1.onrender.com";
 
 const FACEBOOK_URL = "https://www.facebook.com/";
 const MESSENGER_URL = "https://m.me/";
@@ -32,8 +32,6 @@ let selectedRating = 5;
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    /* Load Cart */
-
     try {
 
         cart =
@@ -52,8 +50,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* Setup */
-
     setupSocialLinks();
 
     setupEvents();
@@ -64,8 +60,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadProducts();
 
-
-    /* Current Year */
 
     const yearElement =
         document.getElementById("currentYear");
@@ -529,13 +523,6 @@ async function loadProducts() {
 
         updateCartUI();
 
-
-        /* =================================================
-           STEP 4
-           Product Details থেকে direct order এলে
-           index.html automatically modal খুলবে
-           ================================================= */
-
         handleDirectOrder();
 
 
@@ -718,11 +705,6 @@ function handleDirectOrder() {
         false;
 
 
-    /*
-     * Product Details থেকে যে product এসেছে
-     * সেই exact product দিয়ে modal open হবে।
-     */
-
     setTimeout(
         function () {
 
@@ -736,20 +718,10 @@ function handleDirectOrder() {
     );
 
 
-    /*
-     * Data একবার ব্যবহার করার পর delete
-     */
-
     sessionStorage.removeItem(
         "rkshopDirectOrder"
     );
 
-
-    /*
-     * URL clean করা
-     * index.html?directOrder=true
-     * আর থাকবে না।
-     */
 
     if (
         window.history &&
