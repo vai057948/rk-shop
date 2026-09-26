@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RK Shop - Admin Panel</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        .header {
+            background: #f57224;
+            color: white;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            background: rgba(255,255,255,0.18);
+            padding: 10px 15px;
+            border-radius: 6px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .image-help {
+            color: #666;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .image-inputs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .image-input-box {
+            background: #f7f7f7;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .image-input-box span {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .button-row {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .add-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .update-btn {
+            background: #007bff;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #777;
+            color: white;
+        }
+
+        .refresh-btn {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .search-box {
+            margin-bottom: 15px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th,
+        td {
+            border-bottom: 1px solid #eee;
+            padding: 12px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            background: #f7f7f7;
+        }
+
+        .product-image {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            background: white;
+        }
+
+        .image-count {
+            font-size: 12px;
+            color: #555;
+            margin-top: 4px;
+        }
+
+        .stock-good {
+            color: green;
+            font-weight: bold;
+        }
+
+        .stock-out {
+            color: red;
+            font-weight: bold;
+        }
+
+        .edit-btn {
+            background: #007bff;
+            color: white;
+            margin-right: 5px;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .status-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        @media (max-width: 700px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .image-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <h1>🛍️ RK Shop Admin Panel</h1>
+
+    <a href="../index.html" class="back-btn">
+        🏠 Back to RK Shop
+    </a>
+
+</header>
+
+
+<div class="container">
+
+    <!-- PRODUCT FORM -->
+    <div class="card">
+
+        <h2 id="formTitle">➕ Add New Product</h2>
+
+        <form id="productForm">
+
+            <div class="form-grid">
+
+                <!-- NAME -->
+                <div class="form-group">
+                    <label>Product Name</label>
+
+                    <input
+                        type="text"
+                        id="productName"
+                        placeholder="Example: VEN-DENS VD-P2600"
+                        required
+                    >
+                </div>
+
+
+                <!-- CATEGORY -->
+                <div class="form-group">
+                    <label>Category</label>
+
+                    <input
+                        type="text"
+                        id="productCategory"
+                        placeholder="Example: Power Bank"
+                        required
+                    >
+                </div>
+
+
+                <!-- PRICE -->
+                <div class="form-group">
+                    <label>Price (৳)</label>
+
+                    <input
+                        type="number"
+                        id="productPrice"
+                        placeholder="Example: 1500"
+                        min="0"
+                        required
+                    >
+                </div>
+
+
+                <!-- STOCK -->
+                <div class="form-group">
+                    <label>Stock Quantity</label>
+
+                    <input
+                        type="number"
+                        id="productStock"
+                        placeholder="Example: 10"
+                        min="0"
+                        required
+                    >
+                </div>
+
+
+                <!-- IMAGES -->
+                <div class="form-group full">
+
+                    <label>Product Images</label>
+
+                    <div class="image-inputs">
+
+                        <div class="image-input-box">
+                            <span>Image 1 *</span>
+
+                            <input
+                                type="text"
+                                id="image1"
+                                placeholder="images/product1.jpg"
+                            >
+                        </div>
+
+
+                        <div class="image-input-box">
+                            <span>Image 2</span>
+
+                            <input
+                                type="text"
+                                id="image2"
+                                placeholder="images/product2.jpg"
+                            >
+                        </div>
+
+
+                        <div class="image-input-box">
+                            <span>Image 3</span>
+
+                            <input
+                                type="text"
+                                id="image3"
+                                placeholder="images/product3.jpg"
+                            >
+                        </div>
+
+
+                        <div class="image-input-box">
+                            <span>Image 4</span>
+
+                            <input
+                                type="text"
+                                id="image4"
+                                placeholder="images/product4.jpg"
+                            >
+                        </div>
+
+
+                        <div class="image-input-box">
+                            <span>Image 5</span>
+
+                            <input
+                                type="text"
+                                id="image5"
+                                placeholder="images/product5.jpg"
+                            >
+                        </div>
+
+
+                        <div class="image-input-box">
+                            <span>Image 6</span>
+
+                            <input
+                                type="text"
+                                id="image6"
+                                placeholder="images/product6.jpg"
+                            >
+                        </div>
+
+                    </div>
+
+                    <p class="image-help">
+                        💡 Image file-এর path লিখবে।
+                        Example: images/powerbank-front.jpg
+                    </p>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+                <div class="form-group full">
+
+                    <label>Description</label>
+
+                    <textarea
+                        id="productDescription"
+                        placeholder="Product details লিখুন..."
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button
+                    type="submit"
+                    class="add-btn"
+                    id="submitBtn"
+                >
+                    ➕ Add Product
+                </button>
+
+                <button
+                    type="button"
+                    class="update-btn"
+                    id="updateBtn"
+                    style="display:none;"
+                >
+                    ✏️ Update Product
+                </button>
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    id="cancelBtn"
+                    style="display:none;"
+                >
+                    Cancel
+                </button>
+
+            </div>
+
+        </form>
+
+
+        <div
+            id="statusMessage"
+            class="status-message"
+        ></div>
+
+    </div>
+
+
+    <!-- PRODUCT LIST -->
+    <div class="card">
+
+        <h2>📦 Product List</h2>
+
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="🔍 Search product..."
+            >
+
+        </div>
+
+
+        <button
+            class="refresh-btn"
+            id="refreshBtn"
+        >
+            🔄 Refresh Products
+        </button>
+
+
+        <br><br>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Image</th>
+
+                        <th>Name</th>
+
+                        <th>Category</th>
+
+                        <th>Price</th>
+
+                        <th>Stock</th>
+
+                        <th>Images</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="productTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const API_URL = "http://localhost:5000";
+
+let products = [];
+
+let editingProductId = null;
+
+
+// ============================
+// ELEMENTS
+// ============================
+
+const productForm =
+    document.getElementById("productForm");
+
+const productName =
+    document.getElementById("productName");
+
+const productCategory =
+    document.getElementById("productCategory");
+
+const productPrice =
+    document.getElementById("productPrice");
+
+const productStock =
+    document.getElementById("productStock");
+
+const productDescription =
+    document.getElementById("productDescription");
+
+const imageInputs = [
+    document.getElementById("image1"),
+    document.getElementById("image2"),
+    document.getElementById("image3"),
+    document.getElementById("image4"),
+    document.getElementById("image5"),
+    document.getElementById("image6")
+];
+
+const submitBtn =
+    document.getElementById("submitBtn");
+
+const updateBtn =
+    document.getElementById("updateBtn");
+
+const cancelBtn =
+    document.getElementById("cancelBtn");
+
+const refreshBtn =
+    document.getElementById("refreshBtn");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const productTableBody =
+    document.getElementById("productTableBody");
+
+const statusMessage =
+    document.getElementById("statusMessage");
+
+
+// ============================
+// STATUS MESSAGE
+// ============================
+
+function showMessage(message, type) {
+
+    statusMessage.textContent = message;
+
+    statusMessage.className =
+        "status-message " + type;
+
+    setTimeout(() => {
+
+        statusMessage.className =
+            "status-message";
+
+    }, 4000);
+}
+
+
+// ============================
+// GET IMAGES
+// ============================
+
+function getImagesFromForm() {
+
+    return imageInputs
+        .map(input => input.value.trim())
+        .filter(value => value !== "");
+}
+
+
+// ============================
+// LOAD PRODUCTS
+// ============================
+
+async function loadProducts() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/products`
+            );
+
+        const data =
+            await response.json();
+
+        if (!data.success) {
+
+            throw new Error(
+                data.message ||
+                "Products load হয়নি"
+            );
+        }
+
+        products = data.products || [];
+
+        renderProducts(products);
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "❌ Products load করা যায়নি। Backend চালু আছে কিনা check করুন।",
+            "error"
+        );
+    }
+}
+
+
+// ============================
+// RENDER PRODUCTS
+// ============================
+
+function renderProducts(productList) {
+
+    productTableBody.innerHTML = "";
+
+    if (productList.length === 0) {
+
+        productTableBody.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align:center;">
+                    কোনো product পাওয়া যায়নি।
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    productList.forEach(product => {
+
+        const images =
+            Array.isArray(product.images)
+                ? product.images
+                : product.image
+                    ? [product.image]
+                    : [];
+
+
+        const mainImage =
+            images[0] || "https://via.placeholder.com/70";
+
+
+        const stock =
+            Number(product.stock) || 0;
+
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+
+                <img
+                    src="../${mainImage}"
+                    class="product-image"
+                    onerror="this.src='https://via.placeholder.com/70'"
+                >
+
+            </td>
+
+
+            <td>
+                <strong>
+                    ${escapeHTML(product.name || "")}
+                </strong>
+            </td>
+
+
+            <td>
+                ${escapeHTML(product.category || "")}
+            </td>
+
+
+            <td>
+                ৳${Number(product.price || 0).toLocaleString()}
+            </td>
+
+
+            <td>
+
+                <span
+                    class="${
+                        stock > 0
+                            ? "stock-good"
+                            : "stock-out"
+                    }"
+                >
+                    ${stock}
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <strong>
+                    ${images.length}
+                </strong>
+
+                <div class="image-count">
+                    image(s)
+                </div>
+
+            </td>
+
+
+            <td>
+
+                <button
+                    class="edit-btn"
+                    onclick="editProduct('${product._id}')"
+                >
+                    ✏️ Edit
+                </button>
+
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteProduct('${product._id}')"
+                >
+                    🗑️ Delete
+                </button>
+
+            </td>
+
+        `;
+
+
+        productTableBody.appendChild(row);
+
+    });
+}
+
+
+// ============================
+// ESCAPE HTML
+// ============================
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+// ============================
+// ADD PRODUCT
+// ============================
+
+productForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const images =
+            getImagesFromForm();
+
+
+        if (images.length === 0) {
+
+            showMessage(
+                "❌ কমপক্ষে একটি image দিতে হবে।",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const productData = {
+
+            name:
+                productName.value.trim(),
+
+            category:
+                productCategory.value.trim(),
+
+            price:
+                Number(productPrice.value),
+
+            stock:
+                Number(productStock.value),
+
+            image:
+                images[0],
+
+            images:
+                images,
+
+            description:
+                productDescription.value.trim()
+
+        };
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/products`,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(
+                                productData
+                            )
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!data.success) {
+
+                throw new Error(
+                    data.message ||
+                    "Product add হয়নি"
+                );
+            }
+
+
+            showMessage(
+                "✅ Product successfully added!",
+                "success"
+            );
+
+
+            resetForm();
+
+            loadProducts();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "❌ Product add করা যায়নি: " +
+                error.message,
+                "error"
+            );
+        }
+
+    }
+);
+
+
+// ============================
+// EDIT PRODUCT
+// ============================
+
+function editProduct(id) {
+
+    const product =
+        products.find(
+            item => item._id === id
+        );
+
+
+    if (!product) {
+
+        showMessage(
+            "❌ Product পাওয়া যায়নি।",
+            "error"
+        );
+
+        return;
+    }
+
+
+    editingProductId = id;
+
+
+    document.getElementById(
+        "formTitle"
+    ).textContent =
+        "✏️ Edit Product";
+
+
+    productName.value =
+        product.name || "";
+
+
+    productCategory.value =
+        product.category || "";
+
+
+    productPrice.value =
+        product.price || "";
+
+
+    productStock.value =
+        product.stock || 0;
+
+
+    productDescription.value =
+        product.description || "";
+
+
+    const images =
+        Array.isArray(product.images)
+            ? product.images
+            : product.image
+                ? [product.image]
+                : [];
+
+
+    imageInputs.forEach(
+        (input, index) => {
+
+            input.value =
+                images[index] || "";
+
+        }
+    );
+
+
+    submitBtn.style.display =
+        "none";
+
+
+    updateBtn.style.display =
+        "inline-block";
+
+
+    cancelBtn.style.display =
+        "inline-block";
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+// ============================
+// UPDATE PRODUCT
+// ============================
+
+updateBtn.addEventListener(
+    "click",
+    async function() {
+
+        if (!editingProductId) {
+
+            return;
+        }
+
+
+        const images =
+            getImagesFromForm();
+
+
+        if (images.length === 0) {
+
+            showMessage(
+                "❌ কমপক্ষে একটি image দিতে হবে।",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const productData = {
+
+            name:
+                productName.value.trim(),
+
+            category:
+                productCategory.value.trim(),
+
+            price:
+                Number(productPrice.value),
+
+            stock:
+                Number(productStock.value),
+
+            image:
+                images[0],
+
+            images:
+                images,
+
+            description:
+                productDescription.value.trim()
+
+        };
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/products/${editingProductId}`,
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(
+                                productData
+                            )
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!data.success) {
+
+                throw new Error(
+                    data.message ||
+                    "Product update হয়নি"
+                );
+            }
+
+
+            showMessage(
+                "✅ Product successfully updated!",
+                "success"
+            );
+
+
+            resetForm();
+
+            loadProducts();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "❌ Product update করা যায়নি: " +
+                error.message,
+                "error"
+            );
+        }
+
+    }
+);
+
+
+// ============================
+// DELETE PRODUCT
+// ============================
+
+async function deleteProduct(id) {
+
+    const product =
+        products.find(
+            item => item._id === id
+        );
+
+
+    if (!product) {
+
+        return;
+    }
+
+
+    const confirmed =
+        confirm(
+            `"${product.name}" delete করতে চান?`
+        );
+
+
+    if (!confirmed) {
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/products/${id}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            throw new Error(
+                data.message ||
+                "Delete হয়নি"
+            );
+        }
+
+
+        showMessage(
+            "✅ Product successfully deleted!",
+            "success"
+        );
+
+
+        loadProducts();
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "❌ Product delete করা যায়নি: " +
+            error.message,
+            "error"
+        );
+    }
+}
+
+
+// ============================
+// RESET FORM
+// ============================
+
+function resetForm() {
+
+    productForm.reset();
+
+    editingProductId = null;
+
+
+    document.getElementById(
+        "formTitle"
+    ).textContent =
+        "➕ Add New Product";
+
+
+    submitBtn.style.display =
+        "inline-block";
+
+
+    updateBtn.style.display =
+        "none";
+
+
+    cancelBtn.style.display =
+        "none";
+
+}
+
+
+// ============================
+// CANCEL EDIT
+// ============================
+
+cancelBtn.addEventListener(
+    "click",
+    resetForm
+);
+
+
+// ============================
+// REFRESH
+// ============================
+
+refreshBtn.addEventListener(
+    "click",
+    loadProducts
+);
+
+
+// ============================
+// SEARCH
+// ============================
+
+searchInput.addEventListener(
+    "input",
+    function() {
+
+        const search =
+            this.value
+                .toLowerCase()
+                .trim();
+
+
+        const filtered =
+            products.filter(product => {
+
+                const name =
+                    String(
+                        product.name || ""
+                    ).toLowerCase();
+
+
+                const category =
+                    String(
+                        product.category || ""
+                    ).toLowerCase();
+
+
+                return (
+                    name.includes(search) ||
+                    category.includes(search)
+                );
+
+            });
+
+
+        renderProducts(filtered);
+
+    }
+);
+
+
+// ============================
+// INITIAL LOAD
+// ============================
+
+loadProducts();
+
+</script>
+
+</body>
+</html>
