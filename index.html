@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RK Shop - Premium Online Shop</title>
+
+    <meta
+        name="description"
+        content="RK Shop - Quality products at affordable prices."
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <a href="index.html">RK Shop</a>
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="index.html" class="active">
+                Home
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+            <a
+                href="https://www.facebook.com/"
+                id="facebookPageLink"
+                target="_blank"
+                rel="noopener noreferrer">
+                Facebook
+            </a>
+
+            <a
+                href="https://m.me/"
+                id="messengerPageLink"
+                target="_blank"
+                rel="noopener noreferrer">
+                Messenger
+            </a>
+
+        </div>
+
+
+        <!-- CART -->
+
+        <button
+            id="cartBtn"
+            class="cart-icon"
+            type="button"
+            aria-label="Open shopping cart">
+
+            🛒
+
+            <span id="cartCounter">
+                0
+            </span>
+
+            <span id="totalPrice">
+                ৳0
+            </span>
+
+        </button>
+
+    </nav>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <span class="hero-badge">
+                🛍️ Welcome to RK Shop
+            </span>
+
+            <h1>
+                Shop Smart.
+                <br>
+                Shop with RK Shop.
+            </h1>
+
+            <p>
+                Discover quality products at affordable prices.
+            </p>
+
+
+            <!-- SEARCH -->
+
+            <div class="search-box">
+
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="আপনার পছন্দের প্রোডাক্ট খুঁজুন..."
+                    autocomplete="off"
+                >
+
+                <button
+                    id="searchBtn"
+                    type="button">
+
+                    🔍 Search
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PRODUCTS ================= -->
+
+    <main>
+
+        <section
+            class="products-section"
+            id="products">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-badge">
+                        Our Products
+                    </span>
+
+                    <h2>
+                        Featured Products
+                    </h2>
+
+                </div>
+
+                <div
+                    id="productCount"
+                    class="product-count">
+
+                    0 Products
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCT GRID -->
+
+            <div
+                id="productGrid"
+                class="product-grid">
+
+                <!-- Products will load from MongoDB -->
+
+            </div>
+
+
+            <!-- NO PRODUCT -->
+
+            <div
+                id="noProductsMessage"
+                class="no-products-message"
+                style="display:none;">
+
+                <div class="no-products-icon">
+                    🔍
+                </div>
+
+                <h3>
+                    No Products Found
+                </h3>
+
+                <p>
+                    আপনার search অনুযায়ী কোনো product পাওয়া যায়নি।
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= WHY RK SHOP ================= -->
+
+        <section class="features-section">
+
+            <div class="section-header">
+
+                <span class="section-badge">
+                    Why RK Shop
+                </span>
+
+                <h2>
+                    Why Choose Us?
+                </h2>
+
+            </div>
+
+
+            <div class="features-grid">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🚚
+                    </div>
+
+                    <h3>
+                        Fast Delivery
+                    </h3>
+
+                    <p>
+                        আমরা দ্রুত আপনার order পৌঁছে দেওয়ার চেষ্টা করি।
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        💵
+                    </div>
+
+                    <h3>
+                        Cash on Delivery
+                    </h3>
+
+                    <p>
+                        Product হাতে পাওয়ার পর payment করার সুবিধা।
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🔒
+                    </div>
+
+                    <h3>
+                        Secure Shopping
+                    </h3>
+
+                    <p>
+                        আপনার order information নিরাপদ রাখার চেষ্টা করি।
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        💬
+                    </div>
+
+                    <h3>
+                        Customer Support
+                    </h3>
+
+                    <p>
+                        প্রয়োজন হলে Messenger ও WhatsApp-এর মাধ্যমে যোগাযোগ করুন।
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= REVIEWS ================= -->
+
+        <section class="reviews-section">
+
+            <div class="section-header">
+
+                <span class="section-badge">
+                    Customer Reviews
+                </span>
+
+                <h2>
+                    What Customers Say
+                </h2>
+
+            </div>
+
+
+            <!-- REVIEW FORM -->
+
+            <div class="review-form-box">
+
+                <h3>
+                    Leave a Review
+                </h3>
+
+                <form id="reviewForm">
+
+                    <div class="form-group">
+
+                        <label for="reviewerName">
+                            Your Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="reviewerName"
+                            placeholder="Enter your name"
+                            maxlength="50"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Rating
+                        </label>
+
+                        <div
+                            id="starContainer"
+                            class="star-container">
+
+                            <button type="button" data-rating="1">
+                                ★
+                            </button>
+
+                            <button type="button" data-rating="2">
+                                ★
+                            </button>
+
+                            <button type="button" data-rating="3">
+                                ★
+                            </button>
+
+                            <button type="button" data-rating="4">
+                                ★
+                            </button>
+
+                            <button type="button" data-rating="5">
+                                ★
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="reviewerComment">
+                            Your Review
+                        </label>
+
+                        <textarea
+                            id="reviewerComment"
+                            rows="4"
+                            maxlength="500"
+                            placeholder="Write your review..."
+                            required>
+                        </textarea>
+
+                    </div>
+
+
+                    <button
+                        id="submitReviewBtn"
+                        type="submit"
+                        class="submit-review-btn">
+
+                        ⭐ Submit Review
+
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- REVIEWS LIST -->
+
+            <div
+                id="reviewsList"
+                class="reviews-list">
+
+                <!-- Reviews will load here -->
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= CART MODAL ================= -->
+
+    <div
+        id="cartModal"
+        class="modal"
+        aria-hidden="true">
+
+        <div class="modal-content cart-modal-content">
+
+            <button
+                id="cartCloseBtn"
+                class="modal-close"
+                type="button"
+                aria-label="Close cart">
+
+                ×
+
+            </button>
+
+
+            <h2>
+                🛒 Your Cart
+            </h2>
+
+
+            <div
+                id="cartItems"
+                class="cart-items">
+
+                <!-- Cart items -->
+
+            </div>
+
+
+            <div class="cart-summary">
+
+                <div>
+                    Total Items:
+                    <strong id="cartTotalItems">
+                        0
+                    </strong>
+                </div>
+
+                <div>
+                    Total:
+                    <strong id="cartTotalAmount">
+                        ৳0
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <button
+                id="cartCheckoutBtn"
+                class="cart-checkout-btn"
+                type="button">
+
+                Continue to Order
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= ORDER MODAL ================= -->
+
+    <div
+        id="orderModal"
+        class="modal"
+        aria-hidden="true">
+
+        <div class="modal-content order-modal-content">
+
+            <button
+                id="closeModalBtn"
+                class="modal-close"
+                type="button"
+                aria-label="Close order">
+
+                ×
+
+            </button>
+
+
+            <h2 class="cod-title">
+                🛍️ Cash on Delivery
+            </h2>
+
+
+            <!-- PRODUCT SUMMARY -->
+
+            <div class="order-summary-box">
+
+                <h3 id="modalProductName">
+                    Product
+                </h3>
+
+                <p>
+                    Price:
+                    <strong id="modalProductPrice">
+                        ৳0
+                    </strong>
+                </p>
+
+            </div>
+
+
+            <!-- QUANTITY -->
+
+            <div class="checkout-quantity-box">
+
+                <label>
+                    Quantity
+                </label>
+
+                <div class="quantity-control">
+
+                    <button
+                        id="checkoutMinusBtn"
+                        type="button">
+
+                        −
+
+                    </button>
+
+                    <input
+                        type="number"
+                        id="checkoutQuantity"
+                        value="1"
+                        min="1"
+                        readonly
+                    >
+
+                    <button
+                        id="checkoutPlusBtn"
+                        type="button">
+
+                        +
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- DELIVERY -->
+
+            <div class="form-group">
+
+                <label for="deliveryArea">
+                    Delivery Area
+                </label>
+
+                <select id="deliveryArea">
+
+                    <option value="inside">
+                        Inside Dhaka — ৳80
+                    </option>
+
+                    <option value="outside">
+                        Outside Dhaka — ৳130
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="checkout-total-box">
+
+                <p>
+                    Delivery Charge:
+                    <strong id="deliveryCharge">
+                        ৳80
+                    </strong>
+                </p>
+
+                <p class="grand-total">
+
+                    Total Cost:
+                    <strong id="totalCost">
+                        ৳0
+                    </strong>
+
+                </p>
+
+            </div>
+
+
+            <!-- CUSTOMER INFORMATION -->
+
+            <div class="form-group">
+
+                <label for="customerName">
+                    Customer Name
+                </label>
+
+                <input
+                    type="text"
+                    id="customerName"
+                    placeholder="আপনার নাম"
+                    maxlength="100"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="customerPhone">
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="customerPhone"
+                    placeholder="01XXXXXXXXX"
+                    maxlength="15"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="customerAddress">
+                    Full Address
+                </label>
+
+                <textarea
+                    id="customerAddress"
+                    rows="3"
+                    maxlength="300"
+                    placeholder="আপনার সম্পূর্ণ ঠিকানা"
+                    required>
+                </textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="customerArea">
+                    Area / District
+                </label>
+
+                <input
+                    type="text"
+                    id="customerArea"
+                    placeholder="আপনার এলাকা / জেলা"
+                    maxlength="100"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ORDER BUTTONS -->
+
+            <div class="order-buttons">
+
+                <button
+                    id="messengerOrderBtn"
+                    class="messenger-order-btn"
+                    type="button">
+
+                    💬 Order via Messenger
+
+                </button>
+
+
+                <button
+                    id="whatsappOrderBtn"
+                    class="whatsapp-order-btn"
+                    type="button">
+
+                    🟢 Order via WhatsApp
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+
+            <div class="footer-brand">
+
+                <h2>
+                    RK Shop
+                </h2>
+
+                <p>
+                    Your trusted online shopping destination.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <h3>
+                    Quick Links
+                </h3>
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
+                <a
+                    id="footerFacebookLink"
+                    href="https://www.facebook.com/"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    📘 Facebook
+
+                </a>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <h3>
+                    Contact
+                </h3>
+
+                <a href="tel:+8801948736873">
+                    📞 +880 01948736873
+                </a>
+
+                <a
+                    id="footerMessengerLink"
+                    href="https://m.me/"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    💬 Messenger
+
+                </a>
+
+                <a
+                    href="https://wa.me/8801948736873"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    🟢 WhatsApp
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+
+                ©
+                <span id="currentYear"></span>
+                RK Shop.
+                All Rights Reserved.
+
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

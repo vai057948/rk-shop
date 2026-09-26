@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Product Details - RK Shop</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            background: #f57224;
+            color: white;
+            padding: 15px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+
+        .home-btn {
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,0.15);
+            padding: 9px 15px;
+            border-radius: 6px;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .container {
+            max-width: 1150px;
+            margin: 35px auto;
+            padding: 0 15px;
+        }
+
+
+        .product-details {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+
+        /* =========================
+           IMAGE GALLERY
+        ========================= */
+
+        .gallery {
+            width: 100%;
+        }
+
+
+        .main-image-box {
+            width: 100%;
+            height: 450px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            overflow: hidden;
+        }
+
+
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 15px;
+        }
+
+
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+
+        .thumbnail {
+            width: 75px;
+            height: 75px;
+            flex-shrink: 0;
+            object-fit: contain;
+            border: 2px solid #ddd;
+            border-radius: 7px;
+            padding: 4px;
+            cursor: pointer;
+            background: white;
+        }
+
+
+        .thumbnail:hover {
+            border-color: #f57224;
+        }
+
+
+        .thumbnail.active {
+            border-color: #f57224;
+        }
+
+
+        /* =========================
+           PRODUCT INFO
+        ========================= */
+
+        .category {
+            display: inline-block;
+            background: #fff0e8;
+            color: #f57224;
+            padding: 6px 10px;
+            border-radius: 5px;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+
+        .product-name {
+            font-size: 30px;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+
+        .price {
+            font-size: 28px;
+            color: #f57224;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+
+        .stock {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+
+        .stock-in {
+            color: green;
+        }
+
+
+        .stock-out {
+            color: red;
+        }
+
+
+        .description-title {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+
+        .description {
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 25px;
+            white-space: pre-line;
+        }
+
+
+        /* =========================
+           QUANTITY
+        ========================= */
+
+        .quantity-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+
+        .quantity-box {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+
+        .quantity-box button {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            background: #f5f5f5;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+
+        .quantity-box input {
+            width: 60px;
+            height: 40px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 16px;
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+
+        .add-cart-btn,
+        .order-btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 14px 18px;
+            border: none;
+            border-radius: 7px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+
+        .add-cart-btn {
+            background: #26abd4;
+        }
+
+
+        .order-btn {
+            background: #f57224;
+        }
+
+
+        .add-cart-btn:hover,
+        .order-btn:hover {
+            opacity: 0.9;
+        }
+
+
+        .disabled {
+            background: #aaa !important;
+            cursor: not-allowed;
+        }
+
+
+        /* =========================
+           LOADING / ERROR
+        ========================= */
+
+        .loading,
+        .error-message {
+            text-align: center;
+            padding: 50px 20px;
+            font-size: 18px;
+        }
+
+
+        .error-message {
+            color: red;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .product-details {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+
+            .main-image-box {
+                height: 350px;
+            }
+
+
+            .product-name {
+                font-size: 25px;
+            }
+
+
+            .price {
+                font-size: 24px;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .navbar {
+                padding: 13px 15px;
+            }
+
+
+            .logo {
+                font-size: 21px;
+            }
+
+
+            .container {
+                margin: 20px auto;
+            }
+
+
+            .product-details {
+                padding: 15px;
+            }
+
+
+            .main-image-box {
+                height: 300px;
+            }
+
+
+            .thumbnail {
+                width: 65px;
+                height: 65px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav class="navbar">
+
+        <a
+            href="index.html"
+            class="logo"
+        >
+            RK Shop
+        </a>
+
+
+        <a
+            href="index.html"
+            class="home-btn"
+        >
+            🏠 Home
+        </a>
+
+    </nav>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="container">
+
+
+        <div
+            id="loading"
+            class="loading"
+        >
+            ⏳ Product loading হচ্ছে...
+        </div>
+
+
+        <div
+            id="errorMessage"
+            class="error-message"
+            style="display:none;"
+        ></div>
+
+
+        <div
+            id="productDetails"
+            class="product-details"
+            style="display:none;"
+        >
+
+
+            <!-- =========================
+                 IMAGE GALLERY
+            ========================= -->
+
+            <div class="gallery">
+
+
+                <div class="main-image-box">
+
+                    <img
+                        id="mainProductImage"
+                        class="main-image"
+                        src=""
+                        alt="Product"
+                    >
+
+                </div>
+
+
+                <div
+                    id="thumbnailContainer"
+                    class="thumbnail-container"
+                ></div>
+
+            </div>
+
+
+            <!-- =========================
+                 PRODUCT INFORMATION
+            ========================= -->
+
+            <div class="product-info">
+
+
+                <span
+                    id="productCategory"
+                    class="category"
+                ></span>
+
+
+                <h1
+                    id="productName"
+                    class="product-name"
+                ></h1>
+
+
+                <div
+                    id="productPrice"
+                    class="price"
+                ></div>
+
+
+                <div
+                    id="productStock"
+                    class="stock"
+                ></div>
+
+
+                <h3 class="description-title">
+                    Product Details
+                </h3>
+
+
+                <p
+                    id="productDescription"
+                    class="description"
+                ></p>
+
+
+                <div class="quantity-title">
+                    Quantity
+                </div>
+
+
+                <div class="quantity-box">
+
+
+                    <button
+                        id="minusBtn"
+                        type="button"
+                    >
+                        −
+                    </button>
+
+
+                    <input
+                        id="quantityInput"
+                        type="number"
+                        value="1"
+                        min="1"
+                    >
+
+
+                    <button
+                        id="plusBtn"
+                        type="button"
+                    >
+                        +
+                    </button>
+
+
+                </div>
+
+
+                <div class="button-row">
+
+
+                    <button
+                        id="addCartBtn"
+                        class="add-cart-btn"
+                        type="button"
+                    >
+                        🛒 Add to Cart
+                    </button>
+
+
+                    <button
+                        id="orderBtn"
+                        class="order-btn"
+                        type="button"
+                    >
+                        🛍️ Order Now
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+<script>
+
+
+/* =========================================================
+   CONFIG
+   ========================================================= */
+
+const API_URL =
+    "http://localhost:5000";
+
+
+/* =========================================================
+   GET PRODUCT ID
+   ========================================================= */
+
+const urlParams =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const productId =
+    urlParams.get("id");
+
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+const loading =
+    document.getElementById(
+        "loading"
+    );
+
+
+const errorMessage =
+    document.getElementById(
+        "errorMessage"
+    );
+
+
+const productDetails =
+    document.getElementById(
+        "productDetails"
+    );
+
+
+const mainProductImage =
+    document.getElementById(
+        "mainProductImage"
+    );
+
+
+const thumbnailContainer =
+    document.getElementById(
+        "thumbnailContainer"
+    );
+
+
+const productCategory =
+    document.getElementById(
+        "productCategory"
+    );
+
+
+const productName =
+    document.getElementById(
+        "productName"
+    );
+
+
+const productPrice =
+    document.getElementById(
+        "productPrice"
+    );
+
+
+const productStock =
+    document.getElementById(
+        "productStock"
+    );
+
+
+const productDescription =
+    document.getElementById(
+        "productDescription"
+    );
+
+
+const quantityInput =
+    document.getElementById(
+        "quantityInput"
+    );
+
+
+const minusBtn =
+    document.getElementById(
+        "minusBtn"
+    );
+
+
+const plusBtn =
+    document.getElementById(
+        "plusBtn"
+    );
+
+
+const addCartBtn =
+    document.getElementById(
+        "addCartBtn"
+    );
+
+
+const orderBtn =
+    document.getElementById(
+        "orderBtn"
+    );
+
+
+/* =========================================================
+   CURRENT PRODUCT
+   ========================================================= */
+
+let currentProduct = null;
+
+
+/* =========================================================
+   LOAD PRODUCT
+   ========================================================= */
+
+async function loadProduct() {
+
+    if (!productId) {
+
+        showError(
+            "❌ Product ID পাওয়া যায়নি।"
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/products/${productId}`
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Product API error"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            throw new Error(
+                data.message ||
+                "Product পাওয়া যায়নি"
+            );
+
+        }
+
+
+        currentProduct =
+            data.product;
+
+
+        displayProduct(
+            currentProduct
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Product details error:",
+            error
+        );
+
+
+        showError(
+            "❌ Product details load করা যায়নি।"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DISPLAY PRODUCT
+   ========================================================= */
+
+function displayProduct(product) {
+
+    loading.style.display =
+        "none";
+
+
+    productDetails.style.display =
+        "grid";
+
+
+    productCategory.textContent =
+        product.category || "";
+
+
+    productName.textContent =
+        product.name || "";
+
+
+    productPrice.textContent =
+        "৳" +
+        Number(
+            product.price || 0
+        ).toLocaleString("en-BD");
+
+
+    productDescription.textContent =
+        product.description ||
+        "এই product-এর কোনো description এখনো দেওয়া হয়নি।";
+
+
+    const stock =
+        Number(
+            product.stock || 0
+        );
+
+
+    if (stock > 0) {
+
+        productStock.textContent =
+            `✅ In Stock (${stock} available)`;
+
+        productStock.className =
+            "stock stock-in";
+
+    } else {
+
+        productStock.textContent =
+            "❌ Out of Stock";
+
+        productStock.className =
+            "stock stock-out";
+
+    }
+
+
+    quantityInput.max =
+        stock;
+
+
+    createImageGallery(
+        product
+    );
+
+
+    if (stock <= 0) {
+
+        addCartBtn.disabled =
+            true;
+
+        orderBtn.disabled =
+            true;
+
+        addCartBtn.classList.add(
+            "disabled"
+        );
+
+        orderBtn.classList.add(
+            "disabled"
+        );
+
+    } else {
+
+        addCartBtn.disabled =
+            false;
+
+        orderBtn.disabled =
+            false;
+
+        addCartBtn.classList.remove(
+            "disabled"
+        );
+
+        orderBtn.classList.remove(
+            "disabled"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   IMAGE GALLERY
+   ========================================================= */
+
+function createImageGallery(product) {
+
+    let images = [];
+
+
+    /*
+     * Multiple images
+     */
+
+    if (
+        Array.isArray(product.images) &&
+        product.images.length > 0
+    ) {
+
+        images =
+            product.images.filter(
+                image =>
+                    typeof image === "string" &&
+                    image.trim() !== ""
+            );
+
+    }
+
+
+    /*
+     * Old single image support
+     */
+
+    if (
+        images.length === 0 &&
+        product.image
+    ) {
+
+        images = [
+            product.image
+        ];
+
+    }
+
+
+    thumbnailContainer.innerHTML =
+        "";
+
+
+    /*
+     * No image
+     */
+
+    if (images.length === 0) {
+
+        setMainImage(
+            "https://via.placeholder.com/500x500?text=RK+Shop"
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * First image = main image
+     */
+
+    setMainImage(
+        images[0]
+    );
+
+
+    /*
+     * Create thumbnails
+     */
+
+    images.forEach(
+        function (image, index) {
+
+            const thumbnail =
+                document.createElement(
+                    "img"
+                );
+
+
+            thumbnail.src =
+                image;
+
+
+            thumbnail.alt =
+                `${product.name || "Product"} image ${
+                    index + 1
+                }`;
+
+
+            thumbnail.className =
+                "thumbnail";
+
+
+            if (index === 0) {
+
+                thumbnail.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            thumbnail.addEventListener(
+                "click",
+                function () {
+
+                    setMainImage(
+                        image
+                    );
+
+
+                    document
+                        .querySelectorAll(
+                            ".thumbnail"
+                        )
+                        .forEach(
+                            function (img) {
+
+                                img.classList.remove(
+                                    "active"
+                                );
+
+                            }
+                        );
+
+
+                    thumbnail.classList.add(
+                        "active"
+                    );
+
+                }
+            );
+
+
+            thumbnail.onerror =
+                function () {
+
+                    this.style.display =
+                        "none";
+
+                };
+
+
+            thumbnailContainer.appendChild(
+                thumbnail
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SET MAIN IMAGE
+   ========================================================= */
+
+function setMainImage(image) {
+
+    mainProductImage.src =
+        image;
+
+
+    mainProductImage.onerror =
+        function () {
+
+            this.src =
+                "https://via.placeholder.com/500x500?text=No+Image";
+
+        };
+
+}
+
+
+/* =========================================================
+   QUANTITY - MINUS
+   ========================================================= */
+
+minusBtn.addEventListener(
+    "click",
+    function () {
+
+        let quantity =
+            Number(
+                quantityInput.value
+            ) || 1;
+
+
+        if (quantity > 1) {
+
+            quantity--;
+
+        }
+
+
+        quantityInput.value =
+            quantity;
+
+    }
+);
+
+
+/* =========================================================
+   QUANTITY - PLUS
+   ========================================================= */
+
+plusBtn.addEventListener(
+    "click",
+    function () {
+
+        if (!currentProduct) {
+            return;
+        }
+
+
+        let quantity =
+            Number(
+                quantityInput.value
+            ) || 1;
+
+
+        const stock =
+            Number(
+                currentProduct.stock || 0
+            );
+
+
+        if (quantity < stock) {
+
+            quantity++;
+
+        }
+
+
+        quantityInput.value =
+            quantity;
+
+    }
+);
+
+
+/* =========================================================
+   QUANTITY INPUT
+   ========================================================= */
+
+quantityInput.addEventListener(
+    "change",
+    function () {
+
+        let quantity =
+            Number(
+                quantityInput.value
+            ) || 1;
+
+
+        const stock =
+            Number(
+                currentProduct?.stock || 0
+            );
+
+
+        if (quantity < 1) {
+
+            quantity = 1;
+
+        }
+
+
+        if (
+            stock > 0 &&
+            quantity > stock
+        ) {
+
+            quantity = stock;
+
+        }
+
+
+        quantityInput.value =
+            quantity;
+
+    }
+);
+
+
+/* =========================================================
+   ADD TO CART
+   ========================================================= */
+
+addCartBtn.addEventListener(
+    "click",
+    function () {
+
+        if (!currentProduct) {
+            return;
+        }
+
+
+        const stock =
+            Number(
+                currentProduct.stock || 0
+            );
+
+
+        if (stock <= 0) {
+
+            alert(
+                "❌ এই product বর্তমানে Out of Stock."
+            );
+
+            return;
+
+        }
+
+
+        let quantity =
+            Number(
+                quantityInput.value
+            ) || 1;
+
+
+        quantity =
+            Math.max(
+                1,
+                Math.min(
+                    quantity,
+                    stock
+                )
+            );
+
+
+        let cart = [];
+
+
+        try {
+
+            cart =
+                JSON.parse(
+                    localStorage.getItem(
+                        "rkshopCart"
+                    )
+                ) || [];
+
+        } catch (error) {
+
+            cart = [];
+
+        }
+
+
+        if (!Array.isArray(cart)) {
+
+            cart = [];
+
+        }
+
+
+        const existing =
+            cart.find(
+                function (item) {
+
+                    return String(item.id) ===
+                        String(currentProduct._id);
+
+                }
+            );
+
+
+        if (existing) {
+
+            existing.quantity =
+                Math.min(
+                    Number(
+                        existing.quantity || 0
+                    ) + quantity,
+                    stock
+                );
+
+
+            existing.stock =
+                stock;
+
+        } else {
+
+            cart.push({
+
+                id:
+                    String(
+                        currentProduct._id
+                    ),
+
+                name:
+                    currentProduct.name || "",
+
+                price:
+                    Number(
+                        currentProduct.price || 0
+                    ),
+
+                image:
+                    currentProduct.image ||
+                    (
+                        Array.isArray(
+                            currentProduct.images
+                        )
+                            ? currentProduct.images[0]
+                            : ""
+                    ),
+
+                stock:
+                    stock,
+
+                quantity:
+                    quantity
+
+            });
+
+        }
+
+
+        localStorage.setItem(
+            "rkshopCart",
+            JSON.stringify(cart)
+        );
+
+
+        alert(
+            "✅ Product cart-এ যোগ হয়েছে!"
+        );
+
+    }
+);
+
+
+/* =========================================================
+   STEP 4 - ORDER NOW
+   ========================================================= */
+
+orderBtn.addEventListener(
+    "click",
+    function () {
+
+        if (!currentProduct) {
+            return;
+        }
+
+
+        const stock =
+            Number(
+                currentProduct.stock || 0
+            );
+
+
+        if (stock <= 0) {
+
+            alert(
+                "❌ এই product বর্তমানে Out of Stock."
+            );
+
+            return;
+
+        }
+
+
+        let quantity =
+            Number(
+                quantityInput.value
+            ) || 1;
+
+
+        quantity =
+            Math.max(
+                1,
+                Math.min(
+                    quantity,
+                    stock
+                )
+            );
+
+
+        /*
+         * Product Details থেকে
+         * exact product + quantity save করছি।
+         */
+
+        const directOrder = {
+
+            id:
+                String(
+                    currentProduct._id
+                ),
+
+            name:
+                currentProduct.name || "",
+
+            price:
+                Number(
+                    currentProduct.price || 0
+                ),
+
+            image:
+                currentProduct.image ||
+                (
+                    Array.isArray(
+                        currentProduct.images
+                    )
+                        ? currentProduct.images[0]
+                        : ""
+                ),
+
+            quantity:
+                quantity
+
+        };
+
+
+        sessionStorage.setItem(
+            "rkshopDirectOrder",
+            JSON.stringify(
+                directOrder
+            )
+        );
+
+
+        /*
+         * Cart-এ add করবে না।
+         *
+         * সরাসরি Home page-এ গিয়ে
+         * Order Modal খুলবে।
+         */
+
+        window.location.href =
+            "index.html?directOrder=true";
+
+    }
+);
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+function showError(message) {
+
+    loading.style.display =
+        "none";
+
+
+    productDetails.style.display =
+        "none";
+
+
+    errorMessage.textContent =
+        message;
+
+
+    errorMessage.style.display =
+        "block";
+
+}
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+loadProduct();
+
+</script>
+
+</body>
+
+</html>
