@@ -340,10 +340,7 @@ th{
 
 <body>
 
-
-<!-- =========================================
-     LOGIN PAGE
-========================================= -->
+<!-- LOGIN PAGE -->
 
 <div id="loginPage">
 
@@ -368,7 +365,6 @@ th{
 
             </div>
 
-
             <div class="input-group">
 
                 <label>Password</label>
@@ -382,7 +378,6 @@ th{
 
             </div>
 
-
             <button
                 type="submit"
                 class="login-btn"
@@ -393,7 +388,6 @@ th{
 
         </form>
 
-
         <div id="loginMessage"></div>
 
     </div>
@@ -401,10 +395,7 @@ th{
 </div>
 
 
-
-<!-- =========================================
-     ADMIN PAGE
-========================================= -->
+<!-- ADMIN PAGE -->
 
 <div id="adminPage">
 
@@ -414,8 +405,9 @@ th{
 
     <div class="header-buttons">
 
+        <!-- FIXED SHOP LINK -->
         <a
-            href="../index.html"
+            href="index.html"
             class="home-btn"
         >
             🏠 Shop
@@ -436,9 +428,7 @@ th{
 <div class="container">
 
 
-<!-- =========================================
-     PRODUCT FORM
-========================================= -->
+<!-- PRODUCT FORM -->
 
 <div class="box">
 
@@ -446,17 +436,13 @@ th{
         ➕ Add New Product
     </h2>
 
-
     <form id="productForm">
 
         <div class="form-grid">
 
-
             <div class="form-group">
 
-                <label>
-                    Product Name *
-                </label>
+                <label>Product Name *</label>
 
                 <input
                     type="text"
@@ -470,9 +456,7 @@ th{
 
             <div class="form-group">
 
-                <label>
-                    Category *
-                </label>
+                <label>Category *</label>
 
                 <input
                     type="text"
@@ -486,9 +470,7 @@ th{
 
             <div class="form-group">
 
-                <label>
-                    Price (৳) *
-                </label>
+                <label>Price (৳) *</label>
 
                 <input
                     type="number"
@@ -503,9 +485,7 @@ th{
 
             <div class="form-group">
 
-                <label>
-                    Stock
-                </label>
+                <label>Stock</label>
 
                 <input
                     type="number"
@@ -597,9 +577,7 @@ th{
 
             <div class="form-group full">
 
-                <label>
-                    Description
-                </label>
+                <label>Description</label>
 
                 <textarea
                     id="description"
@@ -649,17 +627,11 @@ th{
 </div>
 
 
-
-<!-- =========================================
-     PRODUCTS
-========================================= -->
+<!-- PRODUCTS -->
 
 <div class="box">
 
-    <h2>
-        📦 Products
-    </h2>
-
+    <h2>📦 Products</h2>
 
     <div class="search-area">
 
@@ -668,7 +640,6 @@ th{
             id="searchInput"
             placeholder="🔎 Search product..."
         >
-
 
         <button
             class="refresh-btn"
@@ -689,27 +660,18 @@ th{
                 <tr>
 
                     <th>Image</th>
-
                     <th>Name</th>
-
                     <th>Category</th>
-
                     <th>Price</th>
-
                     <th>Stock</th>
-
                     <th>Images</th>
-
                     <th>Actions</th>
 
                 </tr>
 
             </thead>
 
-
-            <tbody id="productTable">
-
-            </tbody>
+            <tbody id="productTable"></tbody>
 
         </table>
 
@@ -722,29 +684,22 @@ th{
 </div>
 
 
-
 <script>
 
-/* =========================================
-   LIVE BACKEND
-========================================= */
+/* LIVE BACKEND */
 
 const API_URL =
     "https://rk-shop-1.onrender.com";
 
 
-/* =========================================
-   VARIABLES
-========================================= */
+/* VARIABLES */
 
 let products = [];
 
 let editingProductId = null;
 
 
-/* =========================================
-   PAGE ELEMENTS
-========================================= */
+/* PAGE ELEMENTS */
 
 const loginPage =
     document.getElementById("loginPage");
@@ -762,9 +717,7 @@ const loginBtn =
     document.getElementById("loginBtn");
 
 
-/* =========================================
-   LOGIN
-========================================= */
+/* LOGIN */
 
 loginForm.addEventListener(
     "submit",
@@ -772,24 +725,20 @@ loginForm.addEventListener(
 
         event.preventDefault();
 
-
         const username =
             document.getElementById(
                 "loginUsername"
             ).value.trim();
-
 
         const password =
             document.getElementById(
                 "loginPassword"
             ).value;
 
-
         loginBtn.disabled = true;
 
         loginBtn.textContent =
             "Logging in...";
-
 
         try{
 
@@ -814,10 +763,8 @@ loginForm.addEventListener(
                     }
                 );
 
-
             const data =
                 await response.json();
-
 
             if(!response.ok){
 
@@ -828,21 +775,18 @@ loginForm.addEventListener(
 
             }
 
-
-            /* SAVE TOKEN */
-
             localStorage.setItem(
                 "rk_admin_token",
                 data.token
             );
 
-
             loginMessage.textContent =
                 "✅ Login successful!";
 
+            loginMessage.style.color =
+                "#198754";
 
             showAdminPage();
-
 
         }catch(error){
 
@@ -865,9 +809,7 @@ loginForm.addEventListener(
 );
 
 
-/* =========================================
-   SHOW ADMIN
-========================================= */
+/* SHOW ADMIN */
 
 function showAdminPage(){
 
@@ -882,9 +824,7 @@ function showAdminPage(){
 }
 
 
-/* =========================================
-   CHECK EXISTING LOGIN
-========================================= */
+/* CHECK EXISTING LOGIN */
 
 async function checkLogin(){
 
@@ -893,13 +833,11 @@ async function checkLogin(){
             "rk_admin_token"
         );
 
-
     if(!token){
 
         return;
 
     }
-
 
     try{
 
@@ -916,7 +854,6 @@ async function checkLogin(){
 
                 }
             );
-
 
         if(response.ok){
 
@@ -941,9 +878,7 @@ async function checkLogin(){
 }
 
 
-/* =========================================
-   AUTH HEADERS
-========================================= */
+/* AUTH HEADERS */
 
 function authHeaders(){
 
@@ -951,7 +886,6 @@ function authHeaders(){
         localStorage.getItem(
             "rk_admin_token"
         );
-
 
     return {
 
@@ -966,9 +900,7 @@ function authHeaders(){
 }
 
 
-/* =========================================
-   STATUS
-========================================= */
+/* STATUS */
 
 function showStatus(
     message,
@@ -980,18 +912,14 @@ function showStatus(
             "status"
         );
 
-
     box.textContent =
         message;
-
 
     box.className =
         type;
 
-
     box.style.display =
         "block";
-
 
     setTimeout(
         function(){
@@ -1006,9 +934,7 @@ function showStatus(
 }
 
 
-/* =========================================
-   FORM DATA
-========================================= */
+/* FORM DATA */
 
 function getFormData(){
 
@@ -1039,7 +965,6 @@ function getFormData(){
         ).value.trim()
 
     ].filter(Boolean);
-
 
     return {
 
@@ -1083,9 +1008,7 @@ function getFormData(){
 }
 
 
-/* =========================================
-   ADD PRODUCT
-========================================= */
+/* ADD PRODUCT */
 
 document
 .getElementById("productForm")
@@ -1095,10 +1018,8 @@ document
 
         event.preventDefault();
 
-
         const product =
             getFormData();
-
 
         try{
 
@@ -1121,10 +1042,8 @@ document
                     }
                 );
 
-
             const data =
                 await response.json();
-
 
             if(
                 response.status === 401 ||
@@ -1137,7 +1056,6 @@ document
 
             }
 
-
             if(!response.ok){
 
                 throw new Error(
@@ -1147,17 +1065,14 @@ document
 
             }
 
-
             showStatus(
                 "✅ Product added successfully!",
                 "success"
             );
 
-
             resetForm();
 
             loadProducts();
-
 
         }catch(error){
 
@@ -1172,9 +1087,7 @@ document
 );
 
 
-/* =========================================
-   LOAD PRODUCTS
-========================================= */
+/* LOAD PRODUCTS */
 
 async function loadProducts(){
 
@@ -1182,7 +1095,6 @@ async function loadProducts(){
         document.getElementById(
             "productTable"
         );
-
 
     table.innerHTML = `
 
@@ -1194,7 +1106,6 @@ async function loadProducts(){
 
     `;
 
-
     try{
 
         const response =
@@ -1203,10 +1114,8 @@ async function loadProducts(){
                 "/api/products"
             );
 
-
         const data =
             await response.json();
-
 
         if(!response.ok){
 
@@ -1217,15 +1126,12 @@ async function loadProducts(){
 
         }
 
-
         products =
             data.products || [];
-
 
         renderProducts(
             products
         );
-
 
     }catch(error){
 
@@ -1234,9 +1140,7 @@ async function loadProducts(){
             <tr>
 
                 <td colspan="7">
-
-                    ❌ ${error.message}
-
+                    ❌ ${escapeHTML(error.message)}
                 </td>
 
             </tr>
@@ -1248,9 +1152,7 @@ async function loadProducts(){
 }
 
 
-/* =========================================
-   RENDER PRODUCTS
-========================================= */
+/* RENDER PRODUCTS */
 
 function renderProducts(list){
 
@@ -1258,7 +1160,6 @@ function renderProducts(list){
         document.getElementById(
             "productTable"
         );
-
 
     if(!list.length){
 
@@ -1278,7 +1179,6 @@ function renderProducts(list){
 
     }
 
-
     table.innerHTML =
         list.map(
             function(product){
@@ -1293,10 +1193,8 @@ function renderProducts(list){
                             ? [product.image]
                             : [];
 
-
                 const mainImage =
                     images[0] || "";
-
 
                 const imageHTML =
                     mainImage
@@ -1304,7 +1202,7 @@ function renderProducts(list){
                     ? `
 
                         <img
-                            src="../${mainImage}"
+                            src="../${escapeHTML(mainImage)}"
                             class="product-img"
                             onerror="
                                 this.style.display='none'
@@ -1314,7 +1212,6 @@ function renderProducts(list){
                     `
 
                     : "No Image";
-
 
                 return `
 
@@ -1392,9 +1289,7 @@ function renderProducts(list){
 }
 
 
-/* =========================================
-   EDIT
-========================================= */
+/* EDIT */
 
 function editProduct(id){
 
@@ -1404,47 +1299,39 @@ function editProduct(id){
                 item._id === id
         );
 
-
     if(!product){
 
         return;
 
     }
 
-
     editingProductId =
         id;
-
 
     document.getElementById(
         "name"
     ).value =
         product.name || "";
 
-
     document.getElementById(
         "category"
     ).value =
         product.category || "";
-
 
     document.getElementById(
         "price"
     ).value =
         product.price || 0;
 
-
     document.getElementById(
         "stock"
     ).value =
         product.stock || 0;
 
-
     document.getElementById(
         "description"
     ).value =
         product.description || "";
-
 
     const images =
         Array.isArray(
@@ -1455,7 +1342,6 @@ function editProduct(id){
             : product.image
                 ? [product.image]
                 : [];
-
 
     for(
         let i = 1;
@@ -1470,30 +1356,25 @@ function editProduct(id){
 
     }
 
-
     document.getElementById(
         "formTitle"
     ).textContent =
         "✏️ Edit Product";
-
 
     document.getElementById(
         "addBtn"
     ).style.display =
         "none";
 
-
     document.getElementById(
         "updateBtn"
     ).style.display =
         "inline-block";
 
-
     document.getElementById(
         "cancelBtn"
     ).style.display =
         "inline-block";
-
 
     window.scrollTo({
         top:0,
@@ -1503,9 +1384,7 @@ function editProduct(id){
 }
 
 
-/* =========================================
-   UPDATE
-========================================= */
+/* UPDATE */
 
 document
 .getElementById("updateBtn")
@@ -1519,10 +1398,8 @@ document
 
         }
 
-
         const product =
             getFormData();
-
 
         try{
 
@@ -1546,10 +1423,8 @@ document
                     }
                 );
 
-
             const data =
                 await response.json();
-
 
             if(
                 response.status === 401 ||
@@ -1562,7 +1437,6 @@ document
 
             }
 
-
             if(!response.ok){
 
                 throw new Error(
@@ -1572,17 +1446,14 @@ document
 
             }
 
-
             showStatus(
                 "✅ Product updated successfully!",
                 "success"
             );
 
-
             resetForm();
 
             loadProducts();
-
 
         }catch(error){
 
@@ -1597,9 +1468,7 @@ document
 );
 
 
-/* =========================================
-   DELETE
-========================================= */
+/* DELETE */
 
 async function deleteProduct(id){
 
@@ -1608,7 +1477,6 @@ async function deleteProduct(id){
             item =>
                 item._id === id
         );
-
 
     if(
         !confirm(
@@ -1619,7 +1487,6 @@ async function deleteProduct(id){
         return;
 
     }
-
 
     try{
 
@@ -1638,10 +1505,8 @@ async function deleteProduct(id){
                 }
             );
 
-
         const data =
             await response.json();
-
 
         if(
             response.status === 401 ||
@@ -1654,7 +1519,6 @@ async function deleteProduct(id){
 
         }
 
-
         if(!response.ok){
 
             throw new Error(
@@ -1664,15 +1528,12 @@ async function deleteProduct(id){
 
         }
 
-
         showStatus(
             "✅ Product deleted!",
             "success"
         );
 
-
         loadProducts();
-
 
     }catch(error){
 
@@ -1686,9 +1547,7 @@ async function deleteProduct(id){
 }
 
 
-/* =========================================
-   RESET FORM
-========================================= */
+/* RESET FORM */
 
 function resetForm(){
 
@@ -1698,33 +1557,27 @@ function resetForm(){
     )
     .reset();
 
-
     document.getElementById(
         "stock"
     ).value = 0;
 
-
     editingProductId =
         null;
-
 
     document.getElementById(
         "formTitle"
     ).textContent =
         "➕ Add New Product";
 
-
     document.getElementById(
         "addBtn"
     ).style.display =
         "inline-block";
 
-
     document.getElementById(
         "updateBtn"
     ).style.display =
         "none";
-
 
     document.getElementById(
         "cancelBtn"
@@ -1734,9 +1587,7 @@ function resetForm(){
 }
 
 
-/* =========================================
-   CANCEL
-========================================= */
+/* CANCEL */
 
 document
 .getElementById("cancelBtn")
@@ -1746,9 +1597,7 @@ document
 );
 
 
-/* =========================================
-   SEARCH
-========================================= */
+/* SEARCH */
 
 document
 .getElementById("searchInput")
@@ -1761,7 +1610,6 @@ document
                 .toLowerCase()
                 .trim();
 
-
         if(!keyword){
 
             renderProducts(
@@ -1771,7 +1619,6 @@ document
             return;
 
         }
-
 
         const filtered =
             products.filter(
@@ -1798,7 +1645,6 @@ document
                 }
             );
 
-
         renderProducts(
             filtered
         );
@@ -1807,9 +1653,7 @@ document
 );
 
 
-/* =========================================
-   LOGOUT
-========================================= */
+/* LOGOUT */
 
 function logout(){
 
@@ -1817,14 +1661,11 @@ function logout(){
         "rk_admin_token"
     );
 
-
     adminPage.style.display =
         "none";
 
-
     loginPage.style.display =
         "flex";
-
 
     document.getElementById(
         "loginPassword"
@@ -1833,9 +1674,7 @@ function logout(){
 }
 
 
-/* =========================================
-   ESCAPE HTML
-========================================= */
+/* ESCAPE HTML */
 
 function escapeHTML(value){
 
@@ -1864,9 +1703,7 @@ function escapeHTML(value){
 }
 
 
-/* =========================================
-   START
-========================================= */
+/* START */
 
 checkLogin();
 
