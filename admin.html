@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -72,7 +73,7 @@
             border-radius: 10px;
             margin-bottom: 25px;
 
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
         }
 
         .section h2 {
@@ -329,15 +330,11 @@
 
         <div class="nav-right">
 
-            <button
-                class="nav-btn"
-                onclick="goToShop()">
+            <button class="nav-btn" onclick="goToShop()">
                 Shop
             </button>
 
-            <button
-                class="nav-btn"
-                onclick="logout()">
+            <button class="nav-btn" onclick="logout()">
                 Logout
             </button>
 
@@ -355,36 +352,35 @@
             <h2>🔐 Admin Login</h2>
 
             <div class="form-group">
+
                 <label>Username</label>
 
                 <input
                     type="text"
                     id="username"
                     placeholder="Enter username">
+
             </div>
 
 
             <div class="form-group">
+
                 <label>Password</label>
 
                 <input
                     type="password"
                     id="password"
                     placeholder="Enter password">
+
             </div>
 
 
-            <button
-                class="primary-btn"
-                onclick="login()">
+            <button class="primary-btn" onclick="login()">
                 Login
             </button>
 
 
-            <div
-                id="loginMessage"
-                class="message">
-            </div>
+            <div id="loginMessage" class="message"></div>
 
         </div>
 
@@ -489,8 +485,7 @@
 
                     <textarea
                         id="productDescription"
-                        placeholder="Product description">
-                    </textarea>
+                        placeholder="Product description"></textarea>
 
                 </div>
 
@@ -503,7 +498,9 @@
                     class="primary-btn"
                     id="saveProductBtn"
                     onclick="saveProduct()">
+
                     Add Product
+
                 </button>
 
 
@@ -512,7 +509,9 @@
                     id="cancelEditBtn"
                     onclick="cancelEdit()"
                     style="display:none;">
+
                     Cancel
+
                 </button>
 
             </div>
@@ -566,9 +565,7 @@
                     </thead>
 
 
-                    <tbody id="productTableBody">
-
-                    </tbody>
+                    <tbody id="productTableBody"></tbody>
 
                 </table>
 
@@ -591,7 +588,9 @@
                 <button
                     class="refresh-btn"
                     onclick="loadOrders()">
+
                     🔄 Refresh Orders
+
                 </button>
 
             </div>
@@ -628,9 +627,7 @@
                     </thead>
 
 
-                    <tbody id="ordersTableBody">
-
-                    </tbody>
+                    <tbody id="ordersTableBody"></tbody>
 
                 </table>
 
@@ -907,6 +904,12 @@
 
         async function loadProducts() {
 
+            const message =
+                document.getElementById(
+                    "productMessage"
+                );
+
+
             try {
 
                 const response =
@@ -925,18 +928,49 @@
                 }
 
 
-                products =
+                /*
+                    IMPORTANT FIX:
+
+                    API যদি সরাসরি array দেয়:
+                    [ product1, product2 ]
+
+                    অথবা object দেয়:
+                    { products: [...] }
+
+                    দুই format-ই handle করবে।
+                */
+
+                const data =
                     await response.json();
+
+
+                products =
+                    Array.isArray(data)
+                        ? data
+                        : (
+                            Array.isArray(data.products)
+                                ? data.products
+                                : []
+                        );
 
 
                 renderProducts();
 
 
+                message.textContent = "";
+
+
             } catch (error) {
 
-                document.getElementById(
-                    "productMessage"
-                ).textContent =
+                products = [];
+
+                renderProducts();
+
+
+                message.className =
+                    "message error";
+
+                message.textContent =
                     error.message;
 
             }
@@ -979,16 +1013,32 @@
                     .toLowerCase();
 
 
+            /*
+                Safety check:
+                products যদি array না হয়,
+                তাহলে empty array ব্যবহার করবে।
+            */
+
+            const productList =
+                Array.isArray(products)
+                    ? products
+                    : [];
+
+
             const filtered =
-                products.filter(product => {
+                productList.filter(product => {
 
                     return (
-                        String(product.name || "")
+                        String(
+                            product.name || ""
+                        )
                             .toLowerCase()
                             .includes(search)
                         ||
 
-                        String(product.category || "")
+                        String(
+                            product.category || ""
+                        )
                             .toLowerCase()
                             .includes(search)
                     );
@@ -1002,12 +1052,19 @@
             if (!filtered.length) {
 
                 tbody.innerHTML = `
+
                     <tr>
-                        <td colspan="6"
+
+                        <td
+                            colspan="6"
                             style="text-align:center;">
+
                             No products found.
+
                         </td>
+
                     </tr>
+
                 `;
 
                 return;
@@ -1017,7 +1074,9 @@
 
             filtered.forEach(product => {
 
-                /* Fixed image selection */
+                /*
+                    Image selection fixed
+                */
 
                 const image =
                     product.image ||
@@ -1036,6 +1095,7 @@
                 tr.innerHTML = `
 
                     <td>
+
                         ${
                             image
                             ?
@@ -1046,36 +1106,55 @@
                             :
                             "No Image"
                         }
+
                     </td>
 
-                    <td>
-                        ${escapeHtml(product.name || "")}
-                    </td>
 
                     <td>
-                        ${escapeHtml(product.category || "")}
+                        ${escapeHtml(
+                            product.name || ""
+                        )}
                     </td>
 
-                    <td>
-                        ৳${Number(product.price || 0).toLocaleString()}
-                    </td>
 
                     <td>
-                        ${Number(product.stock || 0)}
+                        ${escapeHtml(
+                            product.category || ""
+                        )}
                     </td>
+
+
+                    <td>
+                        ৳${Number(
+                            product.price || 0
+                        ).toLocaleString()}
+                    </td>
+
+
+                    <td>
+                        ${Number(
+                            product.stock || 0
+                        )}
+                    </td>
+
 
                     <td>
 
                         <button
                             class="action-btn edit-btn"
                             onclick="editProduct('${product._id}')">
+
                             Edit
+
                         </button>
+
 
                         <button
                             class="action-btn delete-btn"
                             onclick="deleteProduct('${product._id}')">
+
                             Delete
+
                         </button>
 
                     </td>
@@ -1225,18 +1304,21 @@
                             method,
 
                             headers: {
+
                                 "Content-Type":
                                     "application/json",
 
                                 Authorization:
                                     "Bearer " +
                                     adminToken
+
                             },
 
                             body:
                                 JSON.stringify(
                                     productData
                                 )
+
                         }
                     );
 
@@ -1261,8 +1343,8 @@
 
                 message.textContent =
                     editingProductId
-                    ? "Product updated successfully."
-                    : "Product added successfully.";
+                        ? "Product updated successfully."
+                        : "Product added successfully.";
 
 
                 clearForm();
@@ -1489,6 +1571,7 @@
                                     "Bearer " +
                                     adminToken
                             }
+
                         }
                     );
 
@@ -1540,10 +1623,15 @@
             tbody.innerHTML = `
 
                 <tr>
-                    <td colspan="11"
+
+                    <td
+                        colspan="11"
                         style="text-align:center;">
+
                         Loading orders...
+
                     </td>
+
                 </tr>
 
             `;
@@ -1565,8 +1653,34 @@
                     );
 
 
-                const data =
-                    await response.json();
+                /*
+                    এখানে সরাসরি response.json()
+                    না করে আগে text নেওয়া হচ্ছে।
+
+                    কারণ backend যদি JSON-এর বদলে
+                    HTML error page দেয়, তাহলে
+                    "Unexpected token <" আর দেখাবে না।
+                */
+
+                const rawText =
+                    await response.text();
+
+
+                let data;
+
+
+                try {
+
+                    data =
+                        JSON.parse(rawText);
+
+                } catch (jsonError) {
+
+                    throw new Error(
+                        "Live backend-এর Orders API এখনো ঠিকভাবে deployed হয়নি."
+                    );
+
+                }
 
 
                 if (!response.ok) {
@@ -1579,7 +1693,22 @@
                 }
 
 
-                renderOrders(data);
+                /*
+                    API array দিলে সরাসরি নেবে।
+                    { orders: [...] } দিলেও নেবে।
+                */
+
+                const orders =
+                    Array.isArray(data)
+                        ? data
+                        : (
+                            Array.isArray(data.orders)
+                                ? data.orders
+                                : []
+                        );
+
+
+                renderOrders(orders);
 
 
                 message.textContent = "";
@@ -1593,9 +1722,15 @@
 
                         <td
                             colspan="11"
-                            style="text-align:center;color:red;">
+                            style="
+                                text-align:center;
+                                color:red;
+                                padding:20px;
+                            ">
 
-                            ${escapeHtml(error.message)}
+                            ${escapeHtml(
+                                error.message
+                            )}
 
                         </td>
 
@@ -1623,7 +1758,11 @@
             tbody.innerHTML = "";
 
 
-            if (!Array.isArray(orders) || !orders.length) {
+            if (
+                !Array.isArray(orders)
+                ||
+                !orders.length
+            ) {
 
                 tbody.innerHTML = `
 
@@ -1662,12 +1801,12 @@
 
                 const date =
                     order.createdAt
-                    ?
-                    new Date(
-                        order.createdAt
-                    ).toLocaleString()
-                    :
-                    "-";
+                        ?
+                        new Date(
+                            order.createdAt
+                        ).toLocaleString()
+                        :
+                        "-";
 
 
                 const status =
@@ -1682,81 +1821,114 @@
                 tr.innerHTML = `
 
                     <td>
+
                         <span class="order-id">
+
                             ${escapeHtml(
                                 order.orderId || "-"
                             )}
+
                         </span>
+
                     </td>
 
 
                     <td>
+
                         ${escapeHtml(
                             customer.name || "-"
                         )}
+
                     </td>
 
 
                     <td>
+
                         ${escapeHtml(
                             customer.phone || "-"
                         )}
+
                     </td>
 
 
                     <td>
+
                         ${escapeHtml(
                             product.name || "-"
                         )}
+
                     </td>
 
 
                     <td>
+
                         ${Number(
                             product.quantity || 0
                         )}
+
                     </td>
 
 
                     <td>
+
                         ৳${Number(
                             product.price || 0
                         ).toLocaleString()}
+
                     </td>
 
 
                     <td>
+
                         ${escapeHtml(
                             delivery.area || "-"
                         )}
+
                     </td>
 
 
                     <td>
+
                         <span class="total-price">
+
                             ৳${Number(
                                 order.total || 0
                             ).toLocaleString()}
+
                         </span>
+
                     </td>
 
 
                     <td>
+
                         ${escapeHtml(
-                            order.paymentMethod || "COD"
+                            order.paymentMethod ||
+                            "COD"
                         )}
+
                     </td>
 
 
                     <td>
+
                         <span class="order-status">
-                            ${escapeHtml(status)}
+
+                            ${escapeHtml(
+                                status
+                            )}
+
                         </span>
+
                     </td>
 
 
                     <td>
-                        ${escapeHtml(date)}
+
+                        ${escapeHtml(
+                            date
+                        )}
+
                     </td>
 
                 `;
@@ -1783,4 +1955,5 @@
     </script>
 
 </body>
+
 </html>
