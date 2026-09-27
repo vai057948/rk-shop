@@ -1,541 +1,343 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>RK Shop - Admin Panel</title>
-
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family:Arial, sans-serif;
-    background:#f4f6f9;
-    color:#222;
-}
-
-/* ================= LOGIN ================= */
-
-.login-container{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-}
-
-.login-box{
-    width:100%;
-    max-width:420px;
-    background:#fff;
-    padding:35px;
-    border-radius:15px;
-    box-shadow:0 5px 25px rgba(0,0,0,0.1);
-}
-
-.login-box h1{
-    text-align:center;
-    color:#f57224;
-    margin-bottom:10px;
-}
-
-.login-box p{
-    text-align:center;
-    color:#777;
-    margin-bottom:25px;
-}
-
-.form-group{
-    margin-bottom:18px;
-}
-
-.form-group label{
-    display:block;
-    margin-bottom:7px;
-    font-weight:bold;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select{
-    width:100%;
-    padding:12px;
-    border:1px solid #ddd;
-    border-radius:7px;
-    outline:none;
-    font-size:15px;
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus{
-    border-color:#f57224;
-}
-
-.form-group textarea{
-    min-height:120px;
-    resize:vertical;
-}
-
-.login-btn{
-    width:100%;
-    padding:13px;
-    background:#f57224;
-    color:#fff;
-    border:none;
-    border-radius:7px;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.login-btn:hover{
-    background:#d95d18;
-}
-
-.login-error{
-    color:#d9534f;
-    text-align:center;
-    margin-top:15px;
-    display:none;
-}
-
-
-/* ================= ADMIN PANEL ================= */
-
-.admin-panel{
-    display:none;
-}
-
-.admin-navbar{
-    background:#fff;
-    min-height:70px;
-    padding:12px 5%;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    box-shadow:0 2px 10px rgba(0,0,0,0.08);
-    position:sticky;
-    top:0;
-    z-index:1000;
-}
-
-.admin-logo{
-    color:#f57224;
-    font-size:25px;
-    font-weight:bold;
-}
-
-.nav-buttons{
-    display:flex;
-    gap:10px;
-    align-items:center;
-}
-
-.nav-btn{
-    text-decoration:none;
-    border:none;
-    padding:10px 16px;
-    border-radius:7px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.shop-btn{
-    background:#26abd4;
-    color:white;
-}
-
-.logout-btn{
-    background:#d9534f;
-    color:white;
-}
-
-.nav-btn:hover{
-    opacity:0.9;
-}
-
-
-/* ================= MAIN ================= */
-
-.admin-container{
-    max-width:1200px;
-    margin:35px auto;
-    padding:0 20px;
-}
-
-.page-title{
-    margin-bottom:25px;
-}
-
-.page-title h2{
-    font-size:28px;
-    margin-bottom:5px;
-}
-
-.page-title p{
-    color:#777;
-}
-
-
-/* ================= PRODUCT FORM ================= */
-
-.product-form-box{
-    background:#fff;
-    padding:25px;
-    border-radius:12px;
-    box-shadow:0 3px 15px rgba(0,0,0,0.07);
-    margin-bottom:30px;
-}
-
-.product-form-box h3{
-    margin-bottom:20px;
-    color:#333;
-}
-
-.form-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:18px;
-}
-
-.full-width{
-    grid-column:1 / -1;
-}
-
-.image-help{
-    display:block;
-    margin-top:6px;
-    color:#777;
-    font-size:13px;
-}
-
-.form-buttons{
-    display:flex;
-    gap:10px;
-    margin-top:20px;
-}
-
-.save-btn{
-    background:#28a745;
-    color:#fff;
-    border:none;
-    padding:12px 25px;
-    border-radius:7px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.save-btn:hover{
-    background:#218838;
-}
-
-.cancel-btn{
-    background:#777;
-    color:#fff;
-    border:none;
-    padding:12px 25px;
-    border-radius:7px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.cancel-btn:hover{
-    background:#666;
-}
-
-
-/* ================= SEARCH ================= */
-
-.search-box{
-    background:#fff;
-    padding:20px;
-    border-radius:12px;
-    margin-bottom:20px;
-    box-shadow:0 3px 15px rgba(0,0,0,0.07);
-}
-
-.search-box input{
-    width:100%;
-    padding:13px;
-    border:1px solid #ddd;
-    border-radius:7px;
-    outline:none;
-    font-size:15px;
-}
-
-.search-box input:focus{
-    border-color:#f57224;
-}
-
-
-/* ================= PRODUCTS TABLE ================= */
-
-.products-box{
-    background:#fff;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 3px 15px rgba(0,0,0,0.07);
-    overflow-x:auto;
-}
-
-.products-box h3{
-    margin-bottom:20px;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:750px;
-}
-
-th,
-td{
-    padding:12px;
-    border-bottom:1px solid #eee;
-    text-align:left;
-    vertical-align:middle;
-}
-
-th{
-    background:#f8f8f8;
-    font-weight:bold;
-}
-
-tr:hover{
-    background:#fafafa;
-}
-
-.product-img{
-    width:65px;
-    height:65px;
-    object-fit:cover;
-    border-radius:8px;
-    border:1px solid #ddd;
-}
-
-.image-name{
-    display:block;
-    margin-top:5px;
-    max-width:120px;
-    font-size:11px;
-    color:#777;
-    word-break:break-all;
-}
-
-.action-buttons{
-    display:flex;
-    gap:7px;
-}
-
-.edit-btn{
-    background:#ffc107;
-    color:#222;
-    border:none;
-    padding:8px 12px;
-    border-radius:6px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.delete-btn{
-    background:#dc3545;
-    color:#fff;
-    border:none;
-    padding:8px 12px;
-    border-radius:6px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.edit-btn:hover,
-.delete-btn:hover{
-    opacity:0.85;
-}
-
-.no-products{
-    text-align:center;
-    padding:30px;
-    color:#777;
-}
-
-
-/* ================= STATUS ================= */
-
-.status-message{
-    display:none;
-    padding:12px;
-    border-radius:7px;
-    margin-bottom:20px;
-    font-weight:bold;
-}
-
-.status-success{
-    background:#d4edda;
-    color:#155724;
-}
-
-.status-error{
-    background:#f8d7da;
-    color:#721c24;
-}
-
-
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:700px){
-
-    .admin-navbar{
-        padding:12px 15px;
-    }
-
-    .admin-logo{
-        font-size:20px;
-    }
-
-    .nav-buttons{
-        gap:5px;
-    }
-
-    .nav-btn{
-        padding:8px 10px;
-        font-size:12px;
-    }
-
-    .admin-container{
-        padding:0 12px;
-        margin-top:25px;
-    }
-
-    .form-grid{
-        grid-template-columns:1fr;
-    }
-
-    .full-width{
-        grid-column:auto;
-    }
-
-    .product-form-box{
-        padding:18px;
-    }
-
-    .form-buttons{
-        flex-direction:column;
-    }
-
-    .save-btn,
-    .cancel-btn{
-        width:100%;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RK Shop - Admin Panel</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            background: #f57224;
+            color: white;
+            padding: 15px 25px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            border: none;
+            background: white;
+            color: #f57224;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: 95%;
+            max-width: 1250px;
+            margin: 25px auto;
+        }
+
+        .section {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            margin-bottom: 18px;
+            color: #333;
+        }
+
+        /* ================= LOGIN ================= */
+
+        #loginSection {
+            max-width: 450px;
+            margin: 70px auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .primary-btn {
+            background: #f57224;
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .primary-btn:hover {
+            opacity: 0.9;
+        }
+
+        .message {
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+
+        /* ================= PRODUCT FORM ================= */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .edit-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .cancel-btn {
+            background: #777;
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 6px;
+        }
+
+        /* ================= SEARCH ================= */
+
+        .search-box {
+            margin-bottom: 18px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        th,
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            background: #f57224;
+            color: white;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        .product-img {
+            width: 65px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 7px;
+            border: 1px solid #ddd;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 7px 11px;
+            border-radius: 5px;
+            color: white;
+            margin: 2px;
+        }
+
+        .edit-btn {
+            background: #2196f3;
+        }
+
+        .delete-btn {
+            background: #e53935;
+        }
+
+        /* ================= ORDERS ================= */
+
+        .orders-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .refresh-btn {
+            background: #26abd4;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .order-status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #fff3cd;
+            color: #856404;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .order-id {
+            font-weight: bold;
+            color: #f57224;
+        }
+
+        .total-price {
+            font-weight: bold;
+            color: #008000;
+        }
+
+        .no-orders {
+            text-align: center;
+            padding: 25px;
+            color: #777;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 12px 15px;
+            }
+
+            .logo {
+                font-size: 19px;
+            }
+
+            .nav-btn {
+                padding: 7px 10px;
+                font-size: 12px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            .orders-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
+    <!-- ================= NAVBAR ================= -->
 
-<!-- ========================================================= -->
-<!-- LOGIN -->
-<!-- ========================================================= -->
+    <nav class="navbar" id="navbar" style="display:none;">
 
-<div id="loginContainer" class="login-container">
-
-    <div class="login-box">
-
-        <h1>RK Shop</h1>
-
-        <p>Admin Panel Login</p>
-
-        <form id="loginForm">
-
-            <div class="form-group">
-
-                <label for="loginUsername">
-                    Username
-                </label>
-
-                <input
-                    type="text"
-                    id="loginUsername"
-                    placeholder="Enter username"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="loginPassword">
-                    Password
-                </label>
-
-                <input
-                    type="password"
-                    id="loginPassword"
-                    placeholder="Enter password"
-                    required
-                >
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="login-btn"
-            >
-                Login
-            </button>
-
-        </form>
-
-
-        <div
-            id="loginError"
-            class="login-error"
-        ></div>
-
-    </div>
-
-</div>
-
-
-<!-- ========================================================= -->
-<!-- ADMIN PANEL -->
-<!-- ========================================================= -->
-
-<div id="adminPanel" class="admin-panel">
-
-
-    <!-- NAVBAR -->
-
-    <nav class="admin-navbar">
-
-        <div class="admin-logo">
+        <div class="logo">
             RK Shop Admin
         </div>
 
-
-        <div class="nav-buttons">
-
-            <a
-                href="index.html"
-                class="nav-btn shop-btn"
-            >
-                🛒 Shop
-            </a>
-
+        <div class="nav-right">
 
             <button
-                type="button"
-                class="nav-btn logout-btn"
-                onclick="logout()"
-            >
+                class="nav-btn"
+                onclick="goToShop()">
+                Shop
+            </button>
+
+            <button
+                class="nav-btn"
+                onclick="logout()">
                 Logout
             </button>
 
@@ -544,222 +346,207 @@ tr:hover{
     </nav>
 
 
-    <!-- MAIN -->
+    <!-- ================= LOGIN ================= -->
 
-    <main class="admin-container">
+    <div class="container" id="loginSection">
+
+        <div class="section">
+
+            <h2>🔐 Admin Login</h2>
+
+            <div class="form-group">
+                <label>Username</label>
+
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Enter username">
+            </div>
 
 
-        <div class="page-title">
+            <div class="form-group">
+                <label>Password</label>
 
-            <h2>
-                Product Management
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter password">
+            </div>
+
+
+            <button
+                class="primary-btn"
+                onclick="login()">
+                Login
+            </button>
+
+
+            <div
+                id="loginMessage"
+                class="message">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= ADMIN PANEL ================= -->
+
+    <div
+        class="container"
+        id="adminPanel"
+        style="display:none;">
+
+        <!-- ================= PRODUCT FORM ================= -->
+
+        <div class="section">
+
+            <h2 id="formTitle">
+                ➕ Add Product
             </h2>
 
-            <p>
-                Add, edit and delete your products.
-            </p>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>
+                        Product Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="productName"
+                        placeholder="Product name">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Category
+                    </label>
+
+                    <input
+                        type="text"
+                        id="productCategory"
+                        placeholder="Example: Gaming">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Price (৳)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="productPrice"
+                        placeholder="Product price"
+                        min="0">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Stock
+                    </label>
+
+                    <input
+                        type="number"
+                        id="productStock"
+                        placeholder="Stock quantity"
+                        min="0">
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label>
+                        Image
+                    </label>
+
+                    <input
+                        type="text"
+                        id="productImage"
+                        placeholder="Example: product.jpg">
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label>
+                        Description
+                    </label>
+
+                    <textarea
+                        id="productDescription"
+                        placeholder="Product description">
+                    </textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="edit-buttons">
+
+                <button
+                    class="primary-btn"
+                    id="saveProductBtn"
+                    onclick="saveProduct()">
+                    Add Product
+                </button>
+
+
+                <button
+                    class="cancel-btn"
+                    id="cancelEditBtn"
+                    onclick="cancelEdit()"
+                    style="display:none;">
+                    Cancel
+                </button>
+
+            </div>
+
+
+            <div
+                id="productMessage"
+                class="message">
+            </div>
 
         </div>
 
 
-        <!-- STATUS -->
+        <!-- ================= PRODUCTS ================= -->
 
-        <div
-            id="statusMessage"
-            class="status-message"
-        ></div>
+        <div class="section">
 
+            <h2>
+                📦 Product Management
+            </h2>
 
-        <!-- ================================================= -->
-        <!-- PRODUCT FORM -->
-        <!-- ================================================= -->
 
-        <section class="product-form-box">
+            <div class="search-box">
 
-            <h3 id="formTitle">
-                Add New Product
-            </h3>
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search product..."
+                    oninput="renderProducts()">
 
+            </div>
 
-            <form id="productForm">
 
-
-                <div class="form-grid">
-
-
-                    <!-- PRODUCT NAME -->
-
-                    <div class="form-group">
-
-                        <label for="productName">
-                            Product Name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="productName"
-                            placeholder="Enter product name"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- CATEGORY -->
-
-                    <div class="form-group">
-
-                        <label for="category">
-                            Category
-                        </label>
-
-                        <input
-                            type="text"
-                            id="category"
-                            placeholder="Example: Watch"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- PRICE -->
-
-                    <div class="form-group">
-
-                        <label for="price">
-                            Price
-                        </label>
-
-                        <input
-                            type="number"
-                            id="price"
-                            placeholder="Enter price"
-                            min="0"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- STOCK -->
-
-                    <div class="form-group">
-
-                        <label for="stock">
-                            Stock
-                        </label>
-
-                        <input
-                            type="number"
-                            id="stock"
-                            placeholder="Enter stock quantity"
-                            min="0"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- ONE IMAGE -->
-
-                    <div class="form-group full-width">
-
-                        <label for="image">
-                            Product Image
-                        </label>
-
-                        <input
-                            type="text"
-                            id="image"
-                            placeholder="Example: j36ultra1.jpeg"
-                        >
-
-                        <span class="image-help">
-                            Enter the image filename/path used by your Home Page.
-                            Only one image is used for each product.
-                        </span>
-
-                    </div>
-
-
-                    <!-- DESCRIPTION -->
-
-                    <div class="form-group full-width">
-
-                        <label for="description">
-                            Description
-                        </label>
-
-                        <textarea
-                            id="description"
-                            placeholder="Enter product description"
-                        ></textarea>
-
-                    </div>
-
-
-                </div>
-
-
-                <!-- FORM BUTTONS -->
-
-                <div class="form-buttons">
-
-                    <button
-                        type="submit"
-                        class="save-btn"
-                        id="saveButton"
-                    >
-                        Add Product
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="cancel-btn"
-                        id="cancelButton"
-                        onclick="cancelEdit()"
-                        style="display:none;"
-                    >
-                        Cancel Edit
-                    </button>
-
-                </div>
-
-            </form>
-
-        </section>
-
-
-        <!-- ================================================= -->
-        <!-- SEARCH -->
-        <!-- ================================================= -->
-
-        <section class="search-box">
-
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search product by name or category..."
-                oninput="searchProducts()"
-            >
-
-        </section>
-
-
-        <!-- ================================================= -->
-        <!-- PRODUCTS -->
-        <!-- ================================================= -->
-
-        <section class="products-box">
-
-            <h3>
-                All Products
-            </h3>
-
-
-            <div style="overflow-x:auto;">
+            <div class="table-wrapper">
 
                 <table>
 
@@ -767,36 +554,19 @@ tr:hover{
 
                         <tr>
 
-                            <th>
-                                Image
-                            </th>
-
-                            <th>
-                                Name
-                            </th>
-
-                            <th>
-                                Category
-                            </th>
-
-                            <th>
-                                Price
-                            </th>
-
-                            <th>
-                                Stock
-                            </th>
-
-                            <th>
-                                Actions
-                            </th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Action</th>
 
                         </tr>
 
                     </thead>
 
 
-                    <tbody id="productsTableBody">
+                    <tbody id="productTableBody">
 
                     </tbody>
 
@@ -804,776 +574,1147 @@ tr:hover{
 
             </div>
 
-        </section>
+        </div>
 
 
-    </main>
+        <!-- ================= ORDERS ================= -->
 
-</div>
+        <div class="section">
 
+            <div class="orders-header">
 
-<script>
+                <h2>
+                    🛒 Orders Management
+                </h2>
 
-/* ========================================================= */
-/* API */
-/* ========================================================= */
 
-const API_URL =
-    "https://rk-shop-1.onrender.com";
+                <button
+                    class="refresh-btn"
+                    onclick="loadOrders()">
+                    🔄 Refresh Orders
+                </button>
 
+            </div>
 
-/* ========================================================= */
-/* GLOBAL VARIABLES */
-/* ========================================================= */
 
-let products = [];
+            <div
+                id="ordersMessage"
+                class="message">
+            </div>
 
-let editingProductId = null;
 
+            <div class="table-wrapper">
 
-/* ========================================================= */
-/* ELEMENTS */
-/* ========================================================= */
+                <table>
 
-const loginContainer =
-    document.getElementById("loginContainer");
+                    <thead>
 
-const adminPanel =
-    document.getElementById("adminPanel");
+                        <tr>
 
-const loginForm =
-    document.getElementById("loginForm");
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Phone</th>
+                            <th>Product</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Delivery</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                            <th>Date</th>
 
-const productForm =
-    document.getElementById("productForm");
+                        </tr>
 
-const productsTableBody =
-    document.getElementById("productsTableBody");
+                    </thead>
 
-const statusMessage =
-    document.getElementById("statusMessage");
 
-const loginError =
-    document.getElementById("loginError");
+                    <tbody id="ordersTableBody">
 
+                    </tbody>
 
-/* ========================================================= */
-/* ESCAPE HTML */
-/* ========================================================= */
+                </table>
 
-function escapeHTML(value){
+            </div>
 
-    if(value === null || value === undefined){
+        </div>
 
-        return "";
+    </div>
 
-    }
 
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    <script>
 
-}
+        /* ==================================================
+           RK SHOP ADMIN PANEL
+        ================================================== */
 
 
-/* ========================================================= */
-/* IMAGE URL */
-/* ========================================================= */
+        const API_URL =
+            "https://rk-shop-1.onrender.com";
 
-function getImageUrl(image){
 
-    if(!image){
+        let adminToken =
+            localStorage.getItem("rkAdminToken");
 
-        return "";
 
-    }
+        let products = [];
 
+        let editingProductId = null;
 
-    const cleanImage =
-        String(image).trim();
 
+        /* ==================================================
+           PAGE START
+        ================================================== */
 
-    /*
-       If a full URL or path is already stored,
-       use it exactly as it is.
-    */
+        document.addEventListener(
+            "DOMContentLoaded",
+            () => {
 
-    if(
-        /^https?:\/\//i.test(cleanImage) ||
-        cleanImage.startsWith("/") ||
-        cleanImage.startsWith("./") ||
-        cleanImage.startsWith("../")
-    ){
+                if (adminToken) {
 
-        return cleanImage;
+                    checkAdmin();
 
-    }
+                } else {
 
+                    showLogin();
 
-    /*
-       Bare filename:
-       Example:
-       j36ultra1.jpeg
-
-       It will load relative to admin.html.
-    */
-
-    return cleanImage;
-
-}
-
-
-/* ========================================================= */
-/* SHOW STATUS */
-/* ========================================================= */
-
-function showStatus(message, type = "success"){
-
-    statusMessage.textContent = message;
-
-    statusMessage.style.display = "block";
-
-
-    statusMessage.className =
-        "status-message " +
-        (
-            type === "error"
-            ? "status-error"
-            : "status-success"
-        );
-
-
-    setTimeout(function(){
-
-        statusMessage.style.display = "none";
-
-    }, 4000);
-
-}
-
-
-/* ========================================================= */
-/* LOGIN */
-/* ========================================================= */
-
-loginForm.addEventListener(
-    "submit",
-    async function(event){
-
-        event.preventDefault();
-
-
-        const username =
-            document
-                .getElementById("loginUsername")
-                .value
-                .trim();
-
-
-        const password =
-            document
-                .getElementById("loginPassword")
-                .value;
-
-
-        loginError.style.display = "none";
-
-
-        try{
-
-            const response =
-                await fetch(
-                    `${API_URL}/api/admin/login`,
-                    {
-                        method:"POST",
-
-                        headers:{
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body:JSON.stringify({
-                            username,
-                            password
-                        })
-                    }
-                );
-
-
-            const data =
-                await response.json();
-
-
-            if(!response.ok || !data.success){
-
-                throw new Error(
-                    data.message ||
-                    "Invalid username or password"
-                );
-
-            }
-
-
-            localStorage.setItem(
-                "rk_admin_token",
-                data.token
-            );
-
-
-            loginForm.reset();
-
-
-            showAdminPanel();
-
-
-        }catch(error){
-
-            console.error(error);
-
-
-            loginError.textContent =
-                error.message ||
-                "Login failed";
-
-
-            loginError.style.display =
-                "block";
-
-        }
-
-    }
-);
-
-
-/* ========================================================= */
-/* CHECK ADMIN AUTH */
-/* ========================================================= */
-
-async function checkAdminAuth(){
-
-    const token =
-        localStorage.getItem(
-            "rk_admin_token"
-        );
-
-
-    if(!token){
-
-        showLogin();
-
-        return false;
-
-    }
-
-
-    try{
-
-        const response =
-            await fetch(
-                `${API_URL}/api/admin/check`,
-                {
-                    headers:{
-                        "Authorization":
-                            `Bearer ${token}`
-                    }
                 }
-            );
+
+            }
+        );
 
 
-        const data =
-            await response.json();
+        /* ==================================================
+           SHOW LOGIN
+        ================================================== */
+
+        function showLogin() {
+
+            document.getElementById(
+                "loginSection"
+            ).style.display = "block";
 
 
-        if(!response.ok || !data.success){
+            document.getElementById(
+                "adminPanel"
+            ).style.display = "none";
 
-            throw new Error(
-                "Authentication failed"
-            );
+
+            document.getElementById(
+                "navbar"
+            ).style.display = "none";
 
         }
 
 
-        showAdminPanel();
+        /* ==================================================
+           SHOW ADMIN
+        ================================================== */
 
-        return true;
+        function showAdmin() {
 
+            document.getElementById(
+                "loginSection"
+            ).style.display = "none";
 
-    }catch(error){
 
-        console.error(error);
+            document.getElementById(
+                "adminPanel"
+            ).style.display = "block";
 
 
-        localStorage.removeItem(
-            "rk_admin_token"
-        );
+            document.getElementById(
+                "navbar"
+            ).style.display = "flex";
 
 
-        showLogin();
+            loadProducts();
 
-        return false;
-
-    }
-
-}
-
-
-/* ========================================================= */
-/* SHOW LOGIN */
-/* ========================================================= */
-
-function showLogin(){
-
-    loginContainer.style.display =
-        "flex";
-
-    adminPanel.style.display =
-        "none";
-
-}
-
-
-/* ========================================================= */
-/* SHOW ADMIN */
-/* ========================================================= */
-
-function showAdminPanel(){
-
-    loginContainer.style.display =
-        "none";
-
-    adminPanel.style.display =
-        "block";
-
-
-    loadProducts();
-
-}
-
-
-/* ========================================================= */
-/* LOGOUT */
-/* ========================================================= */
-
-function logout(){
-
-    localStorage.removeItem(
-        "rk_admin_token"
-    );
-
-
-    editingProductId = null;
-
-
-    productForm.reset();
-
-
-    showLogin();
-
-}
-
-
-/* ========================================================= */
-/* GET FORM DATA */
-/* ========================================================= */
-
-function getFormData(){
-
-    const name =
-        document
-            .getElementById("productName")
-            .value
-            .trim();
-
-
-    const category =
-        document
-            .getElementById("category")
-            .value
-            .trim();
-
-
-    const price =
-        Number(
-            document
-                .getElementById("price")
-                .value
-        );
-
-
-    const stock =
-        Number(
-            document
-                .getElementById("stock")
-                .value
-        );
-
-
-    const image =
-        document
-            .getElementById("image")
-            .value
-            .trim();
-
-
-    const description =
-        document
-            .getElementById("description")
-            .value
-            .trim();
-
-
-    return{
-
-        name:name,
-
-        category:category,
-
-        price:price,
-
-        stock:stock,
-
-        image:image,
-
-        description:description
-
-    };
-
-}
-
-
-/* ========================================================= */
-/* ADD / UPDATE PRODUCT */
-/* ========================================================= */
-
-productForm.addEventListener(
-    "submit",
-    async function(event){
-
-        event.preventDefault();
-
-
-        const token =
-            localStorage.getItem(
-                "rk_admin_token"
-            );
-
-
-        if(!token){
-
-            showLogin();
-
-            return;
+            loadOrders();
 
         }
 
 
-        const productData =
-            getFormData();
+        /* ==================================================
+           LOGIN
+        ================================================== */
+
+        async function login() {
+
+            const username =
+                document.getElementById(
+                    "username"
+                ).value.trim();
 
 
-        try{
-
-            let response;
-
-
-            if(editingProductId){
-
-                /* ================= UPDATE ================= */
-
-                response =
-                    await fetch(
-                        `${API_URL}/api/products/${editingProductId}`,
-                        {
-                            method:"PUT",
-
-                            headers:{
-                                "Content-Type":
-                                    "application/json",
-
-                                "Authorization":
-                                    `Bearer ${token}`
-                            },
-
-                            body:
-                                JSON.stringify(
-                                    productData
-                                )
-                        }
-                    );
+            const password =
+                document.getElementById(
+                    "password"
+                ).value;
 
 
-            }else{
-
-                /* ================= ADD ================= */
-
-                response =
-                    await fetch(
-                        `${API_URL}/api/products`,
-                        {
-                            method:"POST",
-
-                            headers:{
-                                "Content-Type":
-                                    "application/json",
-
-                                "Authorization":
-                                    `Bearer ${token}`
-                            },
-
-                            body:
-                                JSON.stringify(
-                                    productData
-                                )
-                        }
-                    );
-
-            }
-
-
-            const data =
-                await response.json();
-
-
-            if(!response.ok || !data.success){
-
-                throw new Error(
-                    data.message ||
-                    "Operation failed"
+            const message =
+                document.getElementById(
+                    "loginMessage"
                 );
 
-            }
 
+            if (!username || !password) {
 
-            if(editingProductId){
+                message.className =
+                    "message error";
 
-                showStatus(
-                    "Product updated successfully!"
-                );
-
-            }else{
-
-                showStatus(
-                    "Product added successfully!"
-                );
-
-            }
-
-
-            cancelEdit();
-
-
-            await loadProducts();
-
-
-        }catch(error){
-
-            console.error(error);
-
-
-            if(
-                error.message
-                    .toLowerCase()
-                    .includes("token") ||
-                error.message
-                    .toLowerCase()
-                    .includes("authentication")
-            ){
-
-                localStorage.removeItem(
-                    "rk_admin_token"
-                );
-
-                showLogin();
+                message.textContent =
+                    "Username and password required.";
 
                 return;
 
             }
 
 
-            showStatus(
-                error.message ||
-                "Something went wrong",
-                "error"
-            );
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/api/admin/login",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                username,
+                                password
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok || !data.token) {
+
+                    throw new Error(
+                        data.message ||
+                        "Login failed."
+                    );
+
+                }
+
+
+                adminToken =
+                    data.token;
+
+
+                localStorage.setItem(
+                    "rkAdminToken",
+                    adminToken
+                );
+
+
+                message.className =
+                    "message success";
+
+                message.textContent =
+                    "Login successful.";
+
+
+                showAdmin();
+
+
+            } catch (error) {
+
+                message.className =
+                    "message error";
+
+                message.textContent =
+                    error.message;
+
+            }
 
         }
 
-    }
-);
+
+        /* ==================================================
+           CHECK ADMIN TOKEN
+        ================================================== */
+
+        async function checkAdmin() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/api/admin/check",
+                        {
+                            headers: {
+                                Authorization:
+                                    "Bearer " +
+                                    adminToken
+                            }
+                        }
+                    );
 
 
-/* ========================================================= */
-/* LOAD PRODUCTS */
-/* ========================================================= */
+                if (!response.ok) {
 
-async function loadProducts(){
+                    throw new Error(
+                        "Session expired."
+                    );
 
-    try{
-
-        const response =
-            await fetch(
-                `${API_URL}/api/products`
-            );
+                }
 
 
-        const data =
-            await response.json();
+                showAdmin();
 
 
-        if(!response.ok || !data.success){
+            } catch (error) {
 
-            throw new Error(
-                data.message ||
-                "Failed to load products"
-            );
+                logout();
+
+            }
 
         }
 
 
-        products =
-            Array.isArray(data.products)
-            ? data.products
-            : [];
+        /* ==================================================
+           LOGOUT
+        ================================================== */
+
+        function logout() {
+
+            localStorage.removeItem(
+                "rkAdminToken"
+            );
 
 
-        renderProducts(products);
+            adminToken = null;
+
+            showLogin();
+
+        }
 
 
-    }catch(error){
+        /* ==================================================
+           LOAD PRODUCTS
+        ================================================== */
 
-        console.error(error);
+        async function loadProducts() {
 
+            try {
 
-        productsTableBody.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="6"
-                    class="no-products"
-                >
-                    Failed to load products.
-                </td>
-
-            </tr>
-
-        `;
-
-    }
-
-}
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/api/products"
+                    );
 
 
-/* ========================================================= */
-/* RENDER PRODUCTS */
-/* ========================================================= */
+                if (!response.ok) {
 
-function renderProducts(productList){
+                    throw new Error(
+                        "Could not load products."
+                    );
 
-    if(!productList.length){
-
-        productsTableBody.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="6"
-                    class="no-products"
-                >
-                    No products found.
-                </td>
-
-            </tr>
-
-        `;
-
-        return;
-
-    }
+                }
 
 
-    productsTableBody.innerHTML =
-        productList.map(function(product){
+                products =
+                    await response.json();
 
-            /*
-               New product:
-               product.image
 
-               Old product:
-               product.images[0]
-            */
+                renderProducts();
+
+
+            } catch (error) {
+
+                document.getElementById(
+                    "productMessage"
+                ).textContent =
+                    error.message;
+
+            }
+
+        }
+
+
+        /* ==================================================
+           IMAGE URL
+        ================================================== */
+
+        function getImageUrl(image) {
+
+            if (!image) {
+                return "";
+            }
+
+            return image;
+
+        }
+
+
+        /* ==================================================
+           RENDER PRODUCTS
+        ================================================== */
+
+        function renderProducts() {
+
+            const tbody =
+                document.getElementById(
+                    "productTableBody"
+                );
+
+
+            const search =
+                document.getElementById(
+                    "searchInput"
+                ).value
+                    .trim()
+                    .toLowerCase();
+
+
+            const filtered =
+                products.filter(product => {
+
+                    return (
+                        String(product.name || "")
+                            .toLowerCase()
+                            .includes(search)
+                        ||
+
+                        String(product.category || "")
+                            .toLowerCase()
+                            .includes(search)
+                    );
+
+                });
+
+
+            tbody.innerHTML = "";
+
+
+            if (!filtered.length) {
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6"
+                            style="text-align:center;">
+                            No products found.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
+
+
+            filtered.forEach(product => {
+
+                /* Fixed image selection */
+
+                const image =
+                    product.image ||
+                    (
+                        Array.isArray(product.images)
+                        && product.images.length
+                            ? product.images[0]
+                            : ""
+                    );
+
+
+                const tr =
+                    document.createElement("tr");
+
+
+                tr.innerHTML = `
+
+                    <td>
+                        ${
+                            image
+                            ?
+                            `<img
+                                class="product-img"
+                                src="${getImageUrl(image)}"
+                                alt="Product">`
+                            :
+                            "No Image"
+                        }
+                    </td>
+
+                    <td>
+                        ${escapeHtml(product.name || "")}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(product.category || "")}
+                    </td>
+
+                    <td>
+                        ৳${Number(product.price || 0).toLocaleString()}
+                    </td>
+
+                    <td>
+                        ${Number(product.stock || 0)}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="action-btn edit-btn"
+                            onclick="editProduct('${product._id}')">
+                            Edit
+                        </button>
+
+                        <button
+                            class="action-btn delete-btn"
+                            onclick="deleteProduct('${product._id}')">
+                            Delete
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                tbody.appendChild(tr);
+
+            });
+
+        }
+
+
+        /* ==================================================
+           ESCAPE HTML
+        ================================================== */
+
+        function escapeHtml(value) {
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        /* ==================================================
+           SAVE PRODUCT
+        ================================================== */
+
+        async function saveProduct() {
+
+            const name =
+                document.getElementById(
+                    "productName"
+                ).value.trim();
+
+
+            const category =
+                document.getElementById(
+                    "productCategory"
+                ).value.trim();
+
+
+            const price =
+                Number(
+                    document.getElementById(
+                        "productPrice"
+                    ).value
+                );
+
+
+            const stock =
+                Number(
+                    document.getElementById(
+                        "productStock"
+                    ).value
+                );
+
 
             const image =
+                document.getElementById(
+                    "productImage"
+                ).value.trim();
+
+
+            const description =
+                document.getElementById(
+                    "productDescription"
+                ).value.trim();
+
+
+            const message =
+                document.getElementById(
+                    "productMessage"
+                );
+
+
+            if (!name) {
+
+                message.className =
+                    "message error";
+
+                message.textContent =
+                    "Product name required.";
+
+                return;
+
+            }
+
+
+            if (price < 0 || stock < 0) {
+
+                message.className =
+                    "message error";
+
+                message.textContent =
+                    "Price and stock cannot be negative.";
+
+                return;
+
+            }
+
+
+            const productData = {
+
+                name,
+                category,
+                price,
+                stock,
+                image,
+                description
+
+            };
+
+
+            try {
+
+                let url =
+                    API_URL +
+                    "/api/products";
+
+
+                let method = "POST";
+
+
+                if (editingProductId) {
+
+                    url =
+                        API_URL +
+                        "/api/products/" +
+                        editingProductId;
+
+                    method = "PUT";
+
+                }
+
+
+                const response =
+                    await fetch(
+                        url,
+                        {
+                            method,
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                Authorization:
+                                    "Bearer " +
+                                    adminToken
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    productData
+                                )
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Could not save product."
+                    );
+
+                }
+
+
+                message.className =
+                    "message success";
+
+
+                message.textContent =
+                    editingProductId
+                    ? "Product updated successfully."
+                    : "Product added successfully.";
+
+
+                clearForm();
+
+                await loadProducts();
+
+
+            } catch (error) {
+
+                message.className =
+                    "message error";
+
+                message.textContent =
+                    error.message;
+
+            }
+
+        }
+
+
+        /* ==================================================
+           EDIT PRODUCT
+        ================================================== */
+
+        function editProduct(id) {
+
+            const product =
+                products.find(
+                    item =>
+                        String(item._id) ===
+                        String(id)
+                );
+
+
+            if (!product) {
+                return;
+            }
+
+
+            editingProductId =
+                product._id;
+
+
+            document.getElementById(
+                "formTitle"
+            ).textContent =
+                "✏️ Edit Product";
+
+
+            document.getElementById(
+                "productName"
+            ).value =
+                product.name || "";
+
+
+            document.getElementById(
+                "productCategory"
+            ).value =
+                product.category || "";
+
+
+            document.getElementById(
+                "productPrice"
+            ).value =
+                product.price || 0;
+
+
+            document.getElementById(
+                "productStock"
+            ).value =
+                product.stock || 0;
+
+
+            document.getElementById(
+                "productImage"
+            ).value =
                 product.image ||
                 (
                     Array.isArray(product.images)
                     && product.images.length
-                )
-                ? (
-                    product.image ||
-                    product.images[0]
-                )
-                : "";
+                        ? product.images[0]
+                        : ""
+                );
 
 
-            const imageUrl =
-                getImageUrl(image);
+            document.getElementById(
+                "productDescription"
+            ).value =
+                product.description || "";
 
 
-            const safeImage =
-                escapeHTML(image);
+            document.getElementById(
+                "saveProductBtn"
+            ).textContent =
+                "Update Product";
 
 
-            const safeImageUrl =
-                escapeHTML(imageUrl);
+            document.getElementById(
+                "cancelEditBtn"
+            ).style.display =
+                "inline-block";
 
 
-            const imageHTML =
-                imageUrl
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
 
-                ?
-
-                `
-                <div>
-
-                    <img
-                        src="${safeImageUrl}"
-                        class="product-img"
-                        alt="${escapeHTML(product.name || "Product")}"
-                        onerror="this.style.display='none';"
-                    >
-
-                    <span class="image-name">
-                        ${safeImage}
-                    </span>
-
-                </div>
-                `
-
-                :
-
-                "No Image";
+        }
 
 
-            return `
+        /* ==================================================
+           CANCEL EDIT
+        ================================================== */
+
+        function cancelEdit() {
+
+            clearForm();
+
+        }
+
+
+        /* ==================================================
+           CLEAR FORM
+        ================================================== */
+
+        function clearForm() {
+
+            editingProductId = null;
+
+
+            document.getElementById(
+                "formTitle"
+            ).textContent =
+                "➕ Add Product";
+
+
+            document.getElementById(
+                "productName"
+            ).value = "";
+
+
+            document.getElementById(
+                "productCategory"
+            ).value = "";
+
+
+            document.getElementById(
+                "productPrice"
+            ).value = "";
+
+
+            document.getElementById(
+                "productStock"
+            ).value = "";
+
+
+            document.getElementById(
+                "productImage"
+            ).value = "";
+
+
+            document.getElementById(
+                "productDescription"
+            ).value = "";
+
+
+            document.getElementById(
+                "saveProductBtn"
+            ).textContent =
+                "Add Product";
+
+
+            document.getElementById(
+                "cancelEditBtn"
+            ).style.display =
+                "none";
+
+        }
+
+
+        /* ==================================================
+           DELETE PRODUCT
+        ================================================== */
+
+        async function deleteProduct(id) {
+
+            const product =
+                products.find(
+                    item =>
+                        String(item._id) ===
+                        String(id)
+                );
+
+
+            if (!product) {
+                return;
+            }
+
+
+            const confirmed =
+                confirm(
+                    `Delete "${product.name}"?`
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/api/products/" +
+                        id,
+                        {
+                            method: "DELETE",
+
+                            headers: {
+                                Authorization:
+                                    "Bearer " +
+                                    adminToken
+                            }
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Could not delete product."
+                    );
+
+                }
+
+
+                await loadProducts();
+
+
+            } catch (error) {
+
+                alert(error.message);
+
+            }
+
+        }
+
+
+        /* ==================================================
+           LOAD ORDERS
+        ================================================== */
+
+        async function loadOrders() {
+
+            const tbody =
+                document.getElementById(
+                    "ordersTableBody"
+                );
+
+
+            const message =
+                document.getElementById(
+                    "ordersMessage"
+                );
+
+
+            tbody.innerHTML = `
 
                 <tr>
+                    <td colspan="11"
+                        style="text-align:center;">
+                        Loading orders...
+                    </td>
+                </tr>
+
+            `;
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/api/orders",
+                        {
+                            headers: {
+                                Authorization:
+                                    "Bearer " +
+                                    adminToken
+                            }
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Could not load orders."
+                    );
+
+                }
+
+
+                renderOrders(data);
+
+
+                message.textContent = "";
+
+
+            } catch (error) {
+
+                tbody.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="11"
+                            style="text-align:center;color:red;">
+
+                            ${escapeHtml(error.message)}
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+
+        }
+
+
+        /* ==================================================
+           RENDER ORDERS
+        ================================================== */
+
+        function renderOrders(orders) {
+
+            const tbody =
+                document.getElementById(
+                    "ordersTableBody"
+                );
+
+
+            tbody.innerHTML = "";
+
+
+            if (!Array.isArray(orders) || !orders.length) {
+
+                tbody.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="11"
+                            class="no-orders">
+
+                            No orders yet.
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+                return;
+
+            }
+
+
+            orders.forEach(order => {
+
+                const product =
+                    order.product || {};
+
+
+                const customer =
+                    order.customer || {};
+
+
+                const delivery =
+                    order.delivery || {};
+
+
+                const date =
+                    order.createdAt
+                    ?
+                    new Date(
+                        order.createdAt
+                    ).toLocaleString()
+                    :
+                    "-";
+
+
+                const status =
+                    order.status ||
+                    "Pending";
+
+
+                const tr =
+                    document.createElement("tr");
+
+
+                tr.innerHTML = `
 
                     <td>
-                        ${imageHTML}
+                        <span class="order-id">
+                            ${escapeHtml(
+                                order.orderId || "-"
+                            )}
+                        </span>
                     </td>
 
 
                     <td>
-                        ${escapeHTML(product.name || "")}
+                        ${escapeHtml(
+                            customer.name || "-"
+                        )}
                     </td>
 
 
                     <td>
-                        ${escapeHTML(product.category || "")}
+                        ${escapeHtml(
+                            customer.phone || "-"
+                        )}
+                    </td>
+
+
+                    <td>
+                        ${escapeHtml(
+                            product.name || "-"
+                        )}
+                    </td>
+
+
+                    <td>
+                        ${Number(
+                            product.quantity || 0
+                        )}
                     </td>
 
 
@@ -1585,345 +1726,61 @@ function renderProducts(productList){
 
 
                     <td>
-                        ${Number(
-                            product.stock || 0
+                        ${escapeHtml(
+                            delivery.area || "-"
                         )}
                     </td>
 
 
                     <td>
-
-                        <div class="action-buttons">
-
-                            <button
-                                type="button"
-                                class="edit-btn"
-                                onclick="editProduct('${product._id}')"
-                            >
-                                Edit
-                            </button>
-
-
-                            <button
-                                type="button"
-                                class="delete-btn"
-                                onclick="deleteProduct('${product._id}')"
-                            >
-                                Delete
-                            </button>
-
-                        </div>
-
+                        <span class="total-price">
+                            ৳${Number(
+                                order.total || 0
+                            ).toLocaleString()}
+                        </span>
                     </td>
 
-                </tr>
 
-            `;
+                    <td>
+                        ${escapeHtml(
+                            order.paymentMethod || "COD"
+                        )}
+                    </td>
 
-        }).join("");
 
-}
+                    <td>
+                        <span class="order-status">
+                            ${escapeHtml(status)}
+                        </span>
+                    </td>
 
 
-/* ========================================================= */
-/* EDIT PRODUCT */
-/* ========================================================= */
+                    <td>
+                        ${escapeHtml(date)}
+                    </td>
 
-function editProduct(id){
+                `;
 
-    const product =
-        products.find(
-            item => item._id === id
-        );
 
+                tbody.appendChild(tr);
 
-    if(!product){
-
-        alert("Product not found.");
-
-        return;
-
-    }
-
-
-    editingProductId =
-        id;
-
-
-    document.getElementById(
-        "productName"
-    ).value =
-        product.name || "";
-
-
-    document.getElementById(
-        "category"
-    ).value =
-        product.category || "";
-
-
-    document.getElementById(
-        "price"
-    ).value =
-        product.price ?? "";
-
-
-    document.getElementById(
-        "stock"
-    ).value =
-        product.stock ?? "";
-
-
-    /*
-       New format:
-       product.image
-
-       Old format:
-       product.images[0]
-    */
-
-    const oldImage =
-        Array.isArray(product.images)
-        && product.images.length
-        ? product.images[0]
-        : "";
-
-
-    document.getElementById(
-        "image"
-    ).value =
-        product.image ||
-        oldImage ||
-        "";
-
-
-    document.getElementById(
-        "description"
-    ).value =
-        product.description || "";
-
-
-    document.getElementById(
-        "formTitle"
-    ).textContent =
-        "Edit Product";
-
-
-    document.getElementById(
-        "saveButton"
-    ).textContent =
-        "Update Product";
-
-
-    document.getElementById(
-        "cancelButton"
-    ).style.display =
-        "inline-block";
-
-
-    window.scrollTo({
-
-        top:0,
-
-        behavior:"smooth"
-
-    });
-
-}
-
-
-/* ========================================================= */
-/* CANCEL EDIT */
-/* ========================================================= */
-
-function cancelEdit(){
-
-    editingProductId =
-        null;
-
-
-    productForm.reset();
-
-
-    document.getElementById(
-        "formTitle"
-    ).textContent =
-        "Add New Product";
-
-
-    document.getElementById(
-        "saveButton"
-    ).textContent =
-        "Add Product";
-
-
-    document.getElementById(
-        "cancelButton"
-    ).style.display =
-        "none";
-
-}
-
-
-/* ========================================================= */
-/* DELETE PRODUCT */
-/* ========================================================= */
-
-async function deleteProduct(id){
-
-    const product =
-        products.find(
-            item => item._id === id
-        );
-
-
-    if(!product){
-
-        return;
-
-    }
-
-
-    const confirmed =
-        confirm(
-            `Are you sure you want to delete "${product.name}"?`
-        );
-
-
-    if(!confirmed){
-
-        return;
-
-    }
-
-
-    const token =
-        localStorage.getItem(
-            "rk_admin_token"
-        );
-
-
-    if(!token){
-
-        showLogin();
-
-        return;
-
-    }
-
-
-    try{
-
-        const response =
-            await fetch(
-                `${API_URL}/api/products/${id}`,
-                {
-                    method:"DELETE",
-
-                    headers:{
-                        "Authorization":
-                            `Bearer ${token}`
-                    }
-                }
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if(!response.ok || !data.success){
-
-            throw new Error(
-                data.message ||
-                "Delete failed"
-            );
+            });
 
         }
 
 
-        showStatus(
-            "Product deleted successfully!"
-        );
+        /* ==================================================
+           GO TO SHOP
+        ================================================== */
 
+        function goToShop() {
 
-        await loadProducts();
+            window.location.href =
+                "index.html";
 
+        }
 
-    }catch(error){
-
-        console.error(error);
-
-
-        showStatus(
-            error.message ||
-            "Failed to delete product",
-            "error"
-        );
-
-    }
-
-}
-
-
-/* ========================================================= */
-/* SEARCH PRODUCTS */
-/* ========================================================= */
-
-function searchProducts(){
-
-    const searchText =
-        document
-            .getElementById("searchInput")
-            .value
-            .trim()
-            .toLowerCase();
-
-
-    if(!searchText){
-
-        renderProducts(products);
-
-        return;
-
-    }
-
-
-    const filtered =
-        products.filter(function(product){
-
-            const name =
-                String(
-                    product.name || ""
-                ).toLowerCase();
-
-
-            const category =
-                String(
-                    product.category || ""
-                ).toLowerCase();
-
-
-            return (
-                name.includes(searchText) ||
-                category.includes(searchText)
-            );
-
-        });
-
-
-    renderProducts(filtered);
-
-}
-
-
-/* ========================================================= */
-/* START */
-/* ========================================================= */
-
-checkAdminAuth();
-
-</script>
+    </script>
 
 </body>
 </html>
