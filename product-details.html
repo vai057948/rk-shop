@@ -572,8 +572,14 @@
    CONFIG
    ========================================================= */
 
+/*
+ * IMPORTANT:
+ * GitHub Pages থেকে localhost ব্যবহার করা যাবে না।
+ * তাই Render-এর live backend ব্যবহার করা হচ্ছে।
+ */
+
 const API_URL =
-    "http://localhost:5000";
+    "https://rk-shop-1.onrender.com";
 
 
 /* =========================================================
@@ -712,14 +718,14 @@ async function loadProduct() {
 
         const response =
             await fetch(
-                `${API_URL}/api/products/${productId}`
+                `${API_URL}/api/products/${encodeURIComponent(productId)}`
             );
 
 
         if (!response.ok) {
 
             throw new Error(
-                "Product API error"
+                `Product API error: ${response.status}`
             );
 
         }
@@ -734,6 +740,15 @@ async function loadProduct() {
             throw new Error(
                 data.message ||
                 "Product পাওয়া যায়নি"
+            );
+
+        }
+
+
+        if (!data.product) {
+
+            throw new Error(
+                "Product data পাওয়া যায়নি"
             );
 
         }
@@ -757,7 +772,7 @@ async function loadProduct() {
 
 
         showError(
-            "❌ Product details load করা যায়নি।"
+            "❌ Product details load করা যায়নি। আবার চেষ্টা করুন।"
         );
 
     }
@@ -828,6 +843,10 @@ function displayProduct(product) {
         stock;
 
 
+    quantityInput.value =
+        stock > 0 ? 1 : 0;
+
+
     createImageGallery(
         product
     );
@@ -866,6 +885,53 @@ function displayProduct(product) {
         );
 
     }
+
+}
+
+
+/* =========================================================
+   IMAGE URL
+   ========================================================= */
+
+function getImageUrl(image) {
+
+    if (!image) {
+
+        return "";
+
+    }
+
+
+    const cleanImage =
+        String(image).trim();
+
+
+    if (!cleanImage) {
+
+        return "";
+
+    }
+
+
+    /*
+     * যদি image already full URL হয়
+     */
+
+    if (
+        cleanImage.startsWith("http://") ||
+        cleanImage.startsWith("https://")
+    ) {
+
+        return cleanImage;
+
+    }
+
+
+    /*
+     * GitHub Pages-এর images folder
+     */
+
+    return `./images/${cleanImage}`;
 
 }
 
@@ -938,7 +1004,7 @@ function createImageGallery(product) {
      */
 
     setMainImage(
-        images[0]
+        getImageUrl(images[0])
     );
 
 
@@ -956,7 +1022,7 @@ function createImageGallery(product) {
 
 
             thumbnail.src =
-                image;
+                getImageUrl(image);
 
 
             thumbnail.alt =
@@ -983,7 +1049,7 @@ function createImageGallery(product) {
                 function () {
 
                     setMainImage(
-                        image
+                        getImageUrl(image)
                     );
 
 
@@ -1041,6 +1107,8 @@ function setMainImage(image) {
 
     mainProductImage.onerror =
         function () {
+
+            this.onerror = null;
 
             this.src =
                 "https://via.placeholder.com/500x500?text=No+Image";
@@ -1311,7 +1379,7 @@ addCartBtn.addEventListener(
 
 
 /* =========================================================
-   STEP 4 - ORDER NOW
+   ORDER NOW
    ========================================================= */
 
 orderBtn.addEventListener(
@@ -1402,9 +1470,7 @@ orderBtn.addEventListener(
 
         /*
          * Cart-এ add করবে না।
-         *
-         * সরাসরি Home page-এ গিয়ে
-         * Order Modal খুলবে।
+         * সরাসরি Home page-এ যাবে।
          */
 
         window.location.href =
